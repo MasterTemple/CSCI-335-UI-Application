@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:background="@color/grey"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:title="Title"
+            app:menu="@menu/top_bar"
+            app:navigationIcon="@drawable/ic_chart" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText
+        android:layout_below="@id/top_bar"
+        android:id="@+id/category_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/hint_category_name"
+        android:inputType="text"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/category_proportion_type"
+        android:layout_below="@id/category_edit_name"
+        android:hint="@string/hint_category_proportion_type"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/category_proportion_value"
+        android:layout_below="@id/category_proportion_type"
+        android:hint="@string/hint_category_proportion_value"
+        android:inputType="numberDecimal"
+        />
+
+    <RelativeLayout
+        android:id="@+id/category_edit_buttons_container"
+        android:layout_width="match_parent"
+        android:layout_below="@id/category_proportion_value"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_delete_button"
+            android:backgroundTint="@color/primary"
+            android:text="Delete"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_edit_button"
+            android:backgroundTint="@color/primary"
+            android:layout_toRightOf="@id/category_delete_button"
+            android:text="Edit"
+            />
+
+    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_proportion_value"
+        android:id="@+id/category_create_button"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/primary"
+        android:text="Create"
+        />
+
+</RelativeLayout>

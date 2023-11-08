@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/monthly_budget_descriptor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/budget_monthly_budget"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/monthly_budget_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/monthly_budget_descriptor"
+        android:text="$200"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        />
+
+    <Button
+        android:id="@+id/edit_budget_button"
+        android:layout_below="@+id/monthly_budget_value"
+        android:layout_width="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:text="@string/budget_edit_budget"
+        />
+
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:id="@+id/category_list"
+        android:layout_below="@id/edit_budget_button"
+        android:layout_width="match_parent"
+        android:layout_height="300sp"></RelativeLayout>
+
+    <Button
+        android:id="@+id/add_category_button"
+        android:layout_below="@+id/category_list"
+        android:layout_width="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:text="@string/budget_add_new_category"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_home"
+        android:title="Delete"
+        android:contentDescription="Delete"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/edit"
+        android:title="ACTION"
+        android:contentDescription="test"
+        app:showAsAction="ifRoom" />
+
+</menu>
