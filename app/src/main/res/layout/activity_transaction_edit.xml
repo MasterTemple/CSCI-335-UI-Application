@@ -60,9 +60,22 @@
         android:inputType="date"
         />
 
-    <EditText
+<!--    <EditText-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:id="@+id/transaction_edit_category"-->
+<!--        android:layout_below="@id/transaction_edit_date"-->
+<!--        android:hint="@string/hint_transaction_category"-->
+<!--        android:inputType="date"-->
+<!--        />-->
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="70dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
@@ -70,8 +83,15 @@
         android:id="@+id/transaction_edit_category"
         android:layout_below="@id/transaction_edit_date"
         android:hint="@string/hint_transaction_category"
-        android:inputType="date"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        >
+        <AutoCompleteTextView
+            android:id="@+id/transaction_edit_category_autocomplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
         />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:layout_width="match_parent"

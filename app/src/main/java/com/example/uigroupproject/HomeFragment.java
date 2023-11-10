@@ -105,7 +105,8 @@ public class HomeFragment extends Fragment {
     private void updateTransactionList() {
         transactions = db.getAllTransactions();
         Collections.reverse(transactions);
-        transactions = transactions.subList(0, 3);
+//        int index = transactions.size() > 3 ? 3 : transactions.size();
+//        transactions = transactions.subList(0, index);
         adapter = new TransactionListAdapter(transactions, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

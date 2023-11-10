@@ -34,11 +34,13 @@
     <string name="budget_monthly_budget">Monthly Budget:</string>
     <string name="budget_edit_budget">Edit Budget</string>
     <string name="budget_add_new_category">Add a New Category +</string>
+
     <string name="transaction_name">Name</string>
     <string name="transaction_amount">Amount</string>
     <string name="transaction_date">Date</string>
     <string name="transaction_category">Category</string>
     <string name="transaction_description">Description</string>
+
     <string name="category_name">Name</string>
     <string name="category_proportion">Proportion</string>
     <string name="category_proportion_value">Value</string>
