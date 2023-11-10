@@ -17,7 +17,7 @@
             android:minHeight="?attr/actionBarSize"
             app:title="Title"
             app:menu="@menu/recents_top_bar"
-            app:navigationIcon="@drawable/ic_chart" />
+            app:navigationIcon="@drawable/ic_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

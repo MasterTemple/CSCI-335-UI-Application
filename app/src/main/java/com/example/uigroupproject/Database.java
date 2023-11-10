@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
     private static Database DB;
-    private static final String NAME = "ui_group_project";
+    private static final String NAME = "test_db_0x00";
     private static final int VERSION = 1;
     private static final String CATEGORY_TABLE = "categories";
     private static final String TRANSACTION_TABLE = "transactions";
@@ -39,12 +39,13 @@ public class Database extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name TEXT," +
                 "amount REAL," +
-                "date DATE," +
+                "date TEXT," +
                 "categoryId INTEGER," +
                 "description TEXT" +
                 ")";
         db.execSQL(createCategoriesTable);
         db.execSQL(createTransactionsTable);
+//        createCategory(new CategoryData((long)-1, "No Category", "", -1.0));
     }
 
     @Override
@@ -80,7 +81,7 @@ public class Database extends SQLiteOpenHelper {
         ContentValues data = new ContentValues();
         data.put("name", transaction.name);
         data.put("amount", transaction.amount);
-//        data.put("date", SQLiteDate(transaction.date));
+        data.put("date", transaction.dateToString());
         data.put("categoryId", transaction.categoryId);
         data.put("description", transaction.description);
         return createFromData(TRANSACTION_TABLE, data);
@@ -98,7 +99,7 @@ public class Database extends SQLiteOpenHelper {
         ContentValues data = new ContentValues();
         data.put("name", transaction.name);
         data.put("amount", transaction.amount);
-//        data.put("date", SQLiteDate(transaction.date));
+        data.put("date", transaction.dateToString());
         data.put("categoryId", transaction.categoryId);
         data.put("description", transaction.description);
         updateFromData(TRANSACTION_TABLE, data, id);
@@ -136,24 +137,25 @@ public class Database extends SQLiteOpenHelper {
 
     public TransactionData getTransactionFromId(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(TRANSACTION_TABLE,
-//                new String[] { "id", "name", "type", "value" },
-//                "id = ?",
-//                new String[] { String.valueOf(id)},
-//                null,
-//                null,
-//                null,
-//                null
-//        );
-//        if(cursor != null && cursor.moveToFirst()) {
-//            @SuppressLint("Range") CategoryData category = new CategoryData(
-//                    cursor.getLong(cursor.getColumnIndex("id")),
-//                    cursor.getString(cursor.getColumnIndex("name")),
-//                    cursor.getString(cursor.getColumnIndex("type")),
-//                    cursor.getDouble(cursor.getColumnIndex("value"))
-//            );
-//            return category;
-//        }
+        String sql = "SELECT " + TRANSACTION_TABLE + ".*, " + CATEGORY_TABLE + ".name as categoryName FROM "
+                + TRANSACTION_TABLE + ", " + CATEGORY_TABLE
+                + " WHERE (" + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id"
+                + " or " + TRANSACTION_TABLE + ".categoryId = -1"
+                + ") and " + TRANSACTION_TABLE + ".id = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor != null && cursor.moveToFirst()) {
+            @SuppressLint("Range") TransactionData transaction = new TransactionData(
+                    // need to do date stuff here :/
+                    cursor.getLong(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getDouble(cursor.getColumnIndex("amount")),
+                    cursor.getString(cursor.getColumnIndex("date")),
+                    cursor.getLong(cursor.getColumnIndex("categoryId")),
+                    cursor.getString(cursor.getColumnIndex("categoryName")),
+                    cursor.getString(cursor.getColumnIndex("description"))
+            );
+            return transaction;
+        }
         return null;
     }
 
@@ -177,4 +179,46 @@ public class Database extends SQLiteOpenHelper {
         return categories;
     }
 
+    public List<TransactionData> getAllTransactions() {
+        List<TransactionData> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT " + TRANSACTION_TABLE + ".*, " + CATEGORY_TABLE + ".name as categoryName FROM "
+        + TRANSACTION_TABLE + ", " + CATEGORY_TABLE
+        + " WHERE " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id or " + TRANSACTION_TABLE + ".categoryId = -1";
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") TransactionData transaction = new TransactionData(
+                        // need to do date stuff here :/
+                        cursor.getLong(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("name")),
+                        cursor.getDouble(cursor.getColumnIndex("amount")),
+                        cursor.getString(cursor.getColumnIndex("date")),
+                        cursor.getLong(cursor.getColumnIndex("categoryId")),
+                        cursor.getString(cursor.getColumnIndex("categoryName")),
+                        cursor.getString(cursor.getColumnIndex("description"))
+                );
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return transactions;
+    }
+
+    public List<TransactionData> getAllTransactionsInPastMonth() {
+        List<TransactionData> transactions = getAllTransactions();
+        List<TransactionData> transactionsThisMonth = new ArrayList<>();
+        Date today = new Date();
+        for(TransactionData transaction: transactions) {
+            try {
+                if(transaction.date.getMonth() == today.getMonth() &&
+                transaction.date.getYear() == today.getYear()) {
+                    transactionsThisMonth.add(transaction);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return transactionsThisMonth;
+    }
 }

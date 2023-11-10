@@ -9,40 +9,54 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
+//import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class RecentsActivity extends AppCompatActivity {
-    final private List<TransactionData> transactions = new ArrayList<>();
+    private List<TransactionData> transactions = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionListAdapter adapter;
     private Context context;
+    private Database db;
 
     private void setTransactions() {
-        transactions.add(new TransactionData("Monkey", 103.22));
-        transactions.add(new TransactionData("Potato", 4.00));
-        transactions.add(new TransactionData("Computer", 1240.99));
-        transactions.add(new TransactionData("Caf Swipe", 11.30));
-        for(int i=0;i<20;i++) {
-            double price = (new Random().nextInt( 3000));
-            price = price + (new Random().nextInt(100)/100.0);
-            transactions.add(new TransactionData(String.format("Item %d", i), price));
-        }
+//        transactions.add(new TransactionData("Monkey", 103.22));
+//        transactions.add(new TransactionData("Potato", 4.00));
+//        transactions.add(new TransactionData("Computer", 1240.99));
+//        transactions.add(new TransactionData("Caf Swipe", 11.30));
+//        for(int i=0;i<20;i++) {
+//            double price = (new Random().nextInt( 3000));
+//            price = price + (new Random().nextInt(100)/100.0);
+//            transactions.add(new TransactionData(String.format("Item %d", i), price));
+//        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recents);
-        setTransactions();
+
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        toolbar.setTitle("Transaction History");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        db = new Database(this);
+        transactions = db.getAllTransactions();
         SearchView search = findViewById(R.id.recent_transactions_search);
         search.clearFocus();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -58,7 +72,7 @@ public class RecentsActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new TransactionListAdapter(transactions, context);
+        adapter = new TransactionListAdapter(transactions, this);
         recyclerView = findViewById(R.id.recent_transactions_list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -71,5 +85,18 @@ public class RecentsActivity extends AppCompatActivity {
             }
         }
         adapter.setFilteredList(newList);
+    }
+
+    private void updateRecentsList() {
+        transactions = db.getAllTransactions();
+        adapter = new TransactionListAdapter(transactions, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateRecentsList();
     }
 }

@@ -46,11 +46,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHo
     }
     //        Toast.makeText(context, "Item at position " + position + " is tapped", Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, "please", Toast.LENGTH_SHORT).show();
-    public void editCategory(long transactionId) {
-
+    public void editCategory(long categoryId) {
         Intent intent = new Intent(context, CategoryEditActivity.class);
         intent.putExtra("isNew", false);
-        intent.putExtra("transactionId", transactionId);
+        intent.putExtra("categoryId", categoryId);
         startActivity(context, intent, new Bundle());
     }
 

@@ -23,8 +23,8 @@ public class CategoryEditActivity extends AppCompatActivity {
         Database db = new Database(this);
         Intent intent = getIntent();
         boolean isNew = intent.getBooleanExtra("isNew", true);
-        long transactionId  = intent.getLongExtra("transactionId", -1);
-//        Button createButton = findViewById(R.id.category_create_button);
+        long categoryId  = intent.getLongExtra("categoryId", -1);
+
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         String action = isNew ? "Create" : "Edit";
         toolbar.setTitle(String.format("%s a Category", action));
@@ -51,7 +51,7 @@ public class CategoryEditActivity extends AppCompatActivity {
                     db.createCategory(category);
                 }
                 else {
-                    db.updateCategory(category, transactionId);
+                    db.updateCategory(category, categoryId);
                 }
                 finish();
                 return true;
@@ -61,7 +61,7 @@ public class CategoryEditActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.deleteCategory(transactionId);
+                db.deleteCategory(categoryId);
                 finish();
             }
         });
@@ -73,8 +73,8 @@ public class CategoryEditActivity extends AppCompatActivity {
             EditText name = findViewById(R.id.category_edit_name);
             EditText type = findViewById(R.id.category_edit_proportion_type);
             EditText value = findViewById(R.id.category_edit_proportion_value);
-//            CategoryData category = new CategoryData("The Name", "The Type", 20.5);
-            CategoryData category = db.getCategoryFromId(transactionId);
+
+            CategoryData category = db.getCategoryFromId(categoryId);
             name.setText(category.name);
             type.setText(category.type);
             value.setText(String.format("%.2f", category.value));

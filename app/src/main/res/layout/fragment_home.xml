@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="$180"
+            android:id="@+id/home_remaining_value"
             android:textSize="40sp"
             android:textAlignment="textEnd"
             android:layout_marginTop="10dp"
