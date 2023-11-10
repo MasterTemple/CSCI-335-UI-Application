@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/categoryName"
-        android:layout_width="220dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -32,13 +32,16 @@
         android:textSize="20sp" />
 
     <TextView
-        android:layout_width="160dp"
-        android:layout_margin="10dp"
-        android:gravity="end"
-        android:layout_height="wrap_content"
         android:id="@+id/categoryValue"
-        android:text="$48.00"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_toEndOf="@id/categoryPercent"
+        android:gravity="end"
+        android:text="$48.00"
         android:textColor="@color/black"
         android:textSize="20sp" />
 

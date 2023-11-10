@@ -22,30 +22,56 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <EditText
-        android:id="@+id/category_edit_name"
-        android:layout_below="@id/top_bar"
+    <!--    <EditText-->
+    <!--        android:id="@+id/category_edit_name"-->
+    <!--        android:layout_below="@id/top_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:hint="@string/hint_category_name"-->
+    <!--        android:inputType="text"-->
+    <!--        />-->
+    <RelativeLayout
+        android:id="@+id/category_edit_input_fields_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:hint="@string/hint_category_name"
-        android:inputType="text"
-        />
+        android:layout_below="@id/top_bar"
+        >
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/category_edit_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+        >
+        <EditText
+            android:id="@+id/category_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_category_name"
+            android:inputType="text"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/category_edit_proportion_type"
-        android:layout_below="@id/category_edit_name"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_edit_proportion_type_layout"
+        android:layout_below="@id/category_edit_name_layout"
         android:hint="@string/hint_category_proportion_type"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         >
         <AutoCompleteTextView
             android:id="@+id/category_edit_proportion_type_autocomplete"
@@ -55,39 +81,31 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-<!--    <EditText-->
-<!--        android:id="@+id/category_edit_proportion_type"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:layout_below="@id/category_edit_name"-->
-<!--        android:hint="@string/hint_category_proportion_type"-->
-<!--        />-->
-
-    <EditText
-        android:id="@+id/category_edit_proportion_value"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/category_edit_proportion_value_layout"
+        android:layout_below="@id/category_edit_proportion_type_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@id/category_edit_proportion_type"
-        android:hint="@string/hint_category_proportion_value"
-        android:inputType="numberDecimal"
-        />
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+        >
+        <EditText
+            android:id="@+id/category_edit_proportion_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_category_proportion_value"
+            android:inputType="numberDecimal"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/category_edit_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/category_edit_proportion_value"
+        android:layout_below="@id/category_edit_input_fields_layout"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/red"
         android:text="@string/action_delete"
+        android:backgroundTint="@color/red"
         />
 
 </RelativeLayout>
