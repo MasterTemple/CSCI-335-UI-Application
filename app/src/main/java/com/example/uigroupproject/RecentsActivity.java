@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -57,6 +58,7 @@ public class RecentsActivity extends AppCompatActivity {
 
         db = new Database(this);
         transactions = db.getAllTransactions();
+        Collections.reverse(transactions);
         SearchView search = findViewById(R.id.recent_transactions_search);
         search.clearFocus();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -89,6 +91,7 @@ public class RecentsActivity extends AppCompatActivity {
 
     private void updateRecentsList() {
         transactions = db.getAllTransactions();
+        Collections.reverse(transactions);
         adapter = new TransactionListAdapter(transactions, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

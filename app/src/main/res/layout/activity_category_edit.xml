@@ -66,8 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/category_edit_proportion_value"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/primary"
-        android:text="Delete"
+        android:backgroundTint="@color/red"
+        android:text="@string/action_delete"
         />
 
 </RelativeLayout>
