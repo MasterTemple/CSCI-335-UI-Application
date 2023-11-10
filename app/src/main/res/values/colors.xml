@@ -5,4 +5,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#0048FF</color>
     <color name="secondary">#002DD3</color>
+    <color name="accent">#FF5722</color>
 </resources>

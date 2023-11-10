@@ -16,16 +16,14 @@ public class TransactionEditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         boolean isNew = intent.getBooleanExtra("isNew", true);
-        Button createButton = findViewById(R.id.transaction_create_button);
-        RelativeLayout editButtonsContainer = findViewById(R.id.transaction_edit_buttons_container);
+        Button deleteButton = findViewById(R.id.transaction_delete_button);
         if(isNew) {
-            // hide delete/edit buttons
-            editButtonsContainer.setVisibility(View.INVISIBLE);
+            // hide delete buttons
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
+        else {
             // fill fields with previous values
             // ...
-        } else {
-            // hide add button
-            createButton.setVisibility(View.INVISIBLE);
         }
     }
 }

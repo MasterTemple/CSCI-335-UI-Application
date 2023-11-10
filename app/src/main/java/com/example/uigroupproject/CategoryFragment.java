@@ -10,10 +10,10 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-public class HomeFragment extends Fragment {
+public class CategoryFragment extends Fragment {
     private Context context;
-    public HomeFragment() {}
-    public HomeFragment(Context _context) {
+    public CategoryFragment() {}
+    public CategoryFragment(Context _context) {
         context = _context;
     }
     @Override
