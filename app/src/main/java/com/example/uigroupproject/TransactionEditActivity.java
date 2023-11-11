@@ -59,10 +59,10 @@ public class TransactionEditActivity extends AppCompatActivity {
         inputCategoryId = findViewById(R.id.transaction_edit_category_autocomplete);
         inputDescription = findViewById(R.id.transaction_edit_description);
 
-        TextInputLayout nameInputLayout = findViewById(R.id.transaction_edit_name_layout);
-        TextInputLayout amountInputLayout = findViewById(R.id.transaction_edit_amount_layout);
-        TextInputLayout dateInputLayout = findViewById(R.id.transaction_edit_date_layout);
-        TextInputLayout categoryInputLayout = findViewById(R.id.transaction_edit_category_layout);
+        TextInputLayout inputNameLayout = findViewById(R.id.transaction_edit_name_layout);
+        TextInputLayout inputAmountLayout = findViewById(R.id.transaction_edit_amount_layout);
+        TextInputLayout inputDateLayout = findViewById(R.id.transaction_edit_date_layout);
+        TextInputLayout inputCategoryLayout = findViewById(R.id.transaction_edit_category_layout);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         String action = isNew ? "Add" : "Edit";
@@ -118,14 +118,36 @@ public class TransactionEditActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 String name = inputName.getText().toString();
-                Double amount = Double.parseDouble(inputAmount.getText().toString());
+                inputName.setText(name);
+
+                String amountString = inputAmount.getText().toString();
+                double amount = 0.0;
+                if(amountString.length() != 0) {
+                    amount = Double.parseDouble(amountString);
+                }
+                inputAmount.setText(amountString);
+
                 String date = inputDate.getText().toString();
+                inputDate.setText(date);
+
 //                Long categoryId = (long)-1;
 //                try {
 //                    categoryId = Long.parseLong(inputCategoryId.getText().toString());
+//                inputCategoryId.setText(inputCategoryId.getText());
 //                } catch(Exception e) {}
                 String description = inputDescription.getText().toString();
-//                if(description == null) description = "";
+                inputDescription.setText(description);
+
+                // if anything has an error, stop
+                boolean inputNameHasError = inputNameLayout.getError() != null;
+                boolean inputAmountHasError = inputAmountLayout.getError() != null;
+                boolean inputDateHasError = inputDateLayout.getError() != null;
+                boolean inputCategoryIdHasError = inputCategoryLayout.getError() != null;
+//                boolean inputDescription = inpu;
+                if( inputNameHasError || inputAmountHasError|| inputDateHasError || inputCategoryIdHasError )
+                    return true;
+
+                // validate end
                 TransactionData transaction = new TransactionData(name, amount, date, categoryId, description);
                 if(isNew) {
                     db.createTransaction(transaction);
@@ -184,13 +206,15 @@ public class TransactionEditActivity extends AppCompatActivity {
                 showCalendarDialog();
             }
         };
-        dateInputLayout.setEndIconOnClickListener(onClickOpenCalendar);
-        dateInputLayout.setErrorIconOnClickListener(onClickOpenCalendar);
+        inputDateLayout.setEndIconOnClickListener(onClickOpenCalendar);
+        inputDateLayout.setErrorIconOnClickListener(onClickOpenCalendar);
 
-        inputDate.addTextChangedListener(ErrorHandling.checkForValidDate(dateInputLayout));
-        inputName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(nameInputLayout));
-        inputAmount.addTextChangedListener(ErrorHandling.checkForNonEmptyField(amountInputLayout));
-        inputCategoryId.addTextChangedListener(ErrorHandling.checkWithinList(categoryInputLayout, categoryNames, true));
+        inputDate.addTextChangedListener(ErrorHandling.checkForValidDate(inputDateLayout));
+        inputName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputNameLayout));
+        inputAmount.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputAmountLayout));
+        inputCategoryId.addTextChangedListener(ErrorHandling.checkWithinList(inputCategoryLayout, categoryNames, true));
+
+//        inputName.addTextChangedListener(ErrorHandling.checkWithFunction(inputNameLayout, ErrorHandling::myerrorfunctiontest));
 
     }
 
