@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <declare-styleable name="RequiredTextLayout">
+<!--            <attr name="app:helperText" format="string"/>-->
+<!--            <attr name="app:helperTextTextColor" format="color"/>-->
+<!--            <attr name="app:endIconMode" format="string"/>-->
+        </declare-styleable>
+</resources>

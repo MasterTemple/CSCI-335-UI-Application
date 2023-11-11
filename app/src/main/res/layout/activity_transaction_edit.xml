@@ -38,6 +38,7 @@
         app:helperText="@string/text_input_helper_text_required"
         app:helperTextTextColor="@color/red"
         app:endIconMode="clear_text"
+        app:errorEnabled="true"
         >
         <EditText
             android:id="@+id/transaction_edit_name"
@@ -74,6 +75,8 @@
         app:helperTextTextColor="@color/red"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_date_picker"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/ic_date_picker"
         >
         <EditText
             android:id="@+id/transaction_edit_date"

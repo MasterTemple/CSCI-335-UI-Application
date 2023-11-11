@@ -11,4 +11,13 @@
     </style>
 
     <style name="Theme.UIGroupProject" parent="Base.Theme.UIGroupProject" />
+
+<!--    <declare-styleable name="App">-->
+<!--        <attr name="app:helperText" format="string"/>-->
+<!--    </declare-styleable>-->
+<!--    <declare-styleable name="RequiredTextLayout">-->
+<!--        <attr name="app:helperText" format="string"/>-->
+<!--        <attr name="app:helperTextTextColor" format="color"/>-->
+<!--        <attr name="app:endIconMode" format="string"/>-->
+<!--    </declare-styleable>-->
 </resources>

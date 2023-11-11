@@ -2,6 +2,8 @@ package com.example.uigroupproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TransactionEditActivity extends AppCompatActivity {
     List<CategoryData> categories = new ArrayList<>();
@@ -54,6 +58,11 @@ public class TransactionEditActivity extends AppCompatActivity {
         inputDate = findViewById(R.id.transaction_edit_date);
         inputCategoryId = findViewById(R.id.transaction_edit_category_autocomplete);
         inputDescription = findViewById(R.id.transaction_edit_description);
+
+        TextInputLayout nameInputLayout = findViewById(R.id.transaction_edit_name_layout);
+        TextInputLayout amountInputLayout = findViewById(R.id.transaction_edit_amount_layout);
+        TextInputLayout dateInputLayout = findViewById(R.id.transaction_edit_date_layout);
+        TextInputLayout categoryInputLayout = findViewById(R.id.transaction_edit_category_layout);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         String action = isNew ? "Add" : "Edit";
@@ -169,13 +178,19 @@ public class TransactionEditActivity extends AppCompatActivity {
             inputDescription.setText(transaction.description);
         }
 
-        TextInputLayout dateInputLayout = findViewById(R.id.transaction_edit_date_layout);
-        dateInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickOpenCalendar = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCalendarDialog();
             }
-        });
+        };
+        dateInputLayout.setEndIconOnClickListener(onClickOpenCalendar);
+        dateInputLayout.setErrorIconOnClickListener(onClickOpenCalendar);
+
+        inputDate.addTextChangedListener(ErrorHandling.checkForValidDate(dateInputLayout));
+        inputName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(nameInputLayout));
+        inputAmount.addTextChangedListener(ErrorHandling.checkForNonEmptyField(amountInputLayout));
+        inputCategoryId.addTextChangedListener(ErrorHandling.checkWithinList(categoryInputLayout, categoryNames, true));
 
     }
 

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,9 @@ public class CategoryEditActivity extends AppCompatActivity {
     EditText inputCategoryName;
     AutoCompleteTextView inputCategoryType;
     EditText inputCategoryValue;
+    TextInputLayout inputCategoryNameLayout;
+    TextInputLayout inputCategoryTypeLayout;
+    TextInputLayout inputCategoryValueLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,10 @@ public class CategoryEditActivity extends AppCompatActivity {
         inputCategoryName = findViewById(R.id.category_edit_name);
         inputCategoryType = findViewById(R.id.category_edit_proportion_type_autocomplete);
         inputCategoryValue = findViewById(R.id.category_edit_proportion_value);
+
+        inputCategoryNameLayout = findViewById(R.id.category_edit_name_layout);
+        inputCategoryTypeLayout = findViewById(R.id.category_edit_proportion_type_layout);
+        inputCategoryValueLayout = findViewById(R.id.category_edit_proportion_value_layout);
 
         ArrayList<String> categoryTypes = new ArrayList<>();
         categoryTypes.add("Fixed Value");
@@ -66,10 +74,12 @@ public class CategoryEditActivity extends AppCompatActivity {
 //                EditText name = findViewById(R.id.category_edit_name);
 //                EditText type = findViewById(R.id.category_edit_proportion_type);
 //                EditText value = findViewById(R.id.category_edit_proportion_value);
+                String inputValue = inputCategoryValue.getText().toString();
+                if(inputValue.length() == 0) inputValue = "0";
                 CategoryData category = new CategoryData(
                         inputCategoryName.getText().toString(),
                         inputCategoryType.getText().toString(),
-                        Double.parseDouble(inputCategoryValue.getText().toString())
+                        Double.parseDouble(inputValue)
                 );
                 if(isNew) {
                     db.createCategory(category);
@@ -104,5 +114,8 @@ public class CategoryEditActivity extends AppCompatActivity {
 //            inputCategoryType.setThreshold(1);
             inputCategoryValue.setText(String.format("%.2f", category.value));
         }
+        inputCategoryName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputCategoryNameLayout));
+        inputCategoryType.addTextChangedListener(ErrorHandling.checkWithinList(inputCategoryTypeLayout, categoryTypes));
+        inputCategoryValue.addTextChangedListener(ErrorHandling.checkForNonNegativeField(inputCategoryValueLayout));
     }
 }

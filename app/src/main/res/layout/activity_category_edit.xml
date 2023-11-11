@@ -43,6 +43,7 @@
             app:helperText="@string/text_input_helper_text_required"
             app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
+            app:errorEnabled="true"
             >
             <EditText
                 android:id="@+id/category_edit_name"
@@ -83,6 +84,7 @@
             app:helperText="@string/text_input_helper_text_required"
             app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
+            android:layout_below="@id/category_edit_proportion_type_layout"
             >
             <EditText
                 android:id="@+id/category_edit_proportion_value"
