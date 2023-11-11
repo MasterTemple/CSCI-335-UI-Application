@@ -34,12 +34,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/transaction_edit_name_layout"
         style="@style/customTextLayout"
+        app:startIconDrawable="@drawable/ic_bookmark"
         >
         <EditText
             android:id="@+id/transaction_edit_name"
+            android:hint="@string/hint_transaction_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_transaction_name"
             android:inputType="text"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -48,6 +49,7 @@
         android:id="@+id/transaction_edit_amount_layout"
         android:layout_below="@id/transaction_edit_name_layout"
         style="@style/customTextLayout"
+        app:startIconDrawable="@drawable/ic_money"
         >
         <EditText
             android:id="@+id/transaction_edit_amount"
@@ -62,6 +64,7 @@
         android:id="@+id/transaction_edit_date_layout"
         android:layout_below="@id/transaction_edit_amount_layout"
         style="@style/customTextLayout"
+        app:startIconDrawable="@drawable/ic_calendar"
         >
         <EditText
             android:id="@+id/transaction_edit_date"
@@ -81,6 +84,7 @@
         android:paddingEnd="15dp"
         android:layout_below="@id/transaction_edit_date_layout"
         android:hint="@string/hint_transaction_category"
+        app:startIconDrawable="@drawable/ic_category"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         >
         <AutoCompleteTextView
@@ -95,6 +99,7 @@
         android:id="@+id/transaction_edit_description_layout"
         android:layout_below="@id/transaction_edit_category_layout"
         style="@style/customTextLayout"
+        app:startIconDrawable="@drawable/ic_description"
         >
         <EditText
             android:layout_width="match_parent"
