@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
     private static Database DB;
-    private static final String NAME = "test_db_0x00";
+    private static final String NAME = "test_db_0x01";
     private static final int VERSION = 1;
     private static final String CATEGORY_TABLE = "categories";
     private static final String TRANSACTION_TABLE = "transactions";

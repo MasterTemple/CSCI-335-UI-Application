@@ -107,12 +107,12 @@ public class StatsFragment extends Fragment {
         Date today = new Date();
         for(int i=0;i<=daysThisMonth;i++) {
             for(TransactionData transaction: transactions) {
-                if(transaction.date.getDay() == i) {
+                if(transaction.date.getDate() == i) {
                     amountSpent += transaction.amount;
                 }
             }
             lineEntries.add(new Entry(i, (float)(budget - amountSpent)));
-            if(today.getDay() == i) break;
+            if(today.getDate() == i) break;
         }
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Actual Amount Remaining");
         lineDataSet.setColor(Color.rgb(0, 255, 0));
