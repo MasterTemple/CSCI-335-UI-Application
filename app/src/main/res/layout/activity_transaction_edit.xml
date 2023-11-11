@@ -20,68 +20,66 @@
             app:navigationIcon="@drawable/ic_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <EditText
-        android:layout_below="@id/top_bar"
-        android:id="@+id/transaction_edit_name"
+    <RelativeLayout
+        android:id="@+id/transaction_edit_input_fields_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:hint="@string/hint_transaction_name"
-        android:inputType="text"
-        />
+        >
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/transaction_edit_amount"
-        android:layout_below="@id/transaction_edit_name"
-        android:hint="@string/hint_transaction_amount"
-        android:inputType="numberDecimal"
-        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transaction_edit_name_layout"
+        style="@style/customTextLayout"
+        >
+        <EditText
+            android:id="@+id/transaction_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_transaction_name"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/transaction_edit_date"
-        android:layout_below="@id/transaction_edit_amount"
-        android:hint="@string/hint_transaction_date"
-        android:inputType="date"
-        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transaction_edit_amount_layout"
+        android:layout_below="@id/transaction_edit_name_layout"
+        style="@style/customTextLayout"
+        >
+        <EditText
+            android:id="@+id/transaction_edit_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_transaction_amount"
+            android:inputType="numberDecimal"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-<!--    <EditText-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginEnd="20dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:id="@+id/transaction_edit_category"-->
-<!--        android:layout_below="@id/transaction_edit_date"-->
-<!--        android:hint="@string/hint_transaction_category"-->
-<!--        android:inputType="date"-->
-<!--        />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transaction_edit_date_layout"
+        android:layout_below="@id/transaction_edit_amount_layout"
+        style="@style/customTextLayout"
+        >
+        <EditText
+            android:id="@+id/transaction_edit_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/transaction_edit_amount_layout"
+            android:hint="@string/hint_transaction_date"
+            android:inputType="date"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/transaction_edit_category"
-        android:layout_below="@id/transaction_edit_date"
+        android:layout_height="wrap_content"
+        android:id="@+id/transaction_edit_category_layout"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@id/transaction_edit_date_layout"
         android:hint="@string/hint_transaction_category"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         >
@@ -93,26 +91,28 @@
         />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/transaction_edit_description"
-        android:layout_below="@id/transaction_edit_category"
-        android:hint="@string/hint_transaction_description"
-        android:inputType="textMultiLine"
-        />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transaction_edit_description_layout"
+        android:layout_below="@id/transaction_edit_category_layout"
+        style="@style/customTextLayout"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transaction_edit_description"
+            android:hint="@string/hint_transaction_description"
+            android:inputType="textMultiLine"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/transaction_edit_description"
+        android:layout_below="@id/transaction_edit_description_layout"
         android:id="@+id/transaction_delete_button"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/red"
         android:text="@string/action_delete"
         />
+    </RelativeLayout>
 
 </RelativeLayout>

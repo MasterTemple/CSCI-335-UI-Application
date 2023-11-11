@@ -23,18 +23,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/category_edit_name"-->
-    <!--        android:layout_below="@id/top_bar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:layout_marginStart="20dp"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:layout_marginEnd="20dp"-->
-    <!--        android:layout_marginBottom="10dp"-->
-    <!--        android:hint="@string/hint_category_name"-->
-    <!--        android:inputType="text"-->
-    <!--        />-->
     <RelativeLayout
         android:id="@+id/category_edit_input_fields_layout"
         android:layout_width="match_parent"
@@ -82,21 +70,18 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/category_edit_proportion_value_layout"
-        android:layout_below="@id/category_edit_proportion_type_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-        >
-        <EditText
-            android:id="@+id/category_edit_proportion_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_category_proportion_value"
-            android:inputType="numberDecimal"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/category_edit_proportion_value_layout"
+            style="@style/customTextLayout"
+            >
+            <EditText
+                android:id="@+id/category_edit_proportion_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_category_proportion_value"
+                android:inputType="numberDecimal"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>
 
     <Button
