@@ -52,8 +52,9 @@ public class HomeFragment extends Fragment {
         }
         int daysLeftThisMonth = getDaysLeftInMonth();
         Double remainingValue = budget - spentThisMonth;
-        progressBar.setProgress((int)Math.floor(remainingValue*100/budget));
-        percentRemaining.setText(String.format("%.2f%%", remainingValue/budget));
+        Double remainingPercent = remainingValue * 100;
+        progressBar.setProgress((int)Math.floor(remainingPercent/budget));
+        percentRemaining.setText(String.format("%.1f%%", remainingPercent/budget));
         dollarsRemaining.setText(String.format("$%.2f", remainingValue));
         dailyBudget.setText(String.format("$%.2f", remainingValue / daysLeftThisMonth));
     }

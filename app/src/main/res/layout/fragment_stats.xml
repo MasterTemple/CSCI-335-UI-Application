@@ -8,20 +8,32 @@
         android:layout_height="match_parent"
     >
 
-        <View
+        <TextView
+            android:id="@+id/spending_line_graph_title"
+            android:text="Amount Remaining This Month"
+            style="@style/customHeading"
+            />
+
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/spending_line_graph"
+            android:layout_below="@id/spending_line_graph_title"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/grey"
+            android:layout_height="350dp"
             android:layout_margin="20dp"
             />
 
-        <View
+        <TextView
+            android:id="@+id/spending_by_category_pie_chart_title"
+            android:layout_below="@id/spending_line_graph"
+            android:text="Spending by Category"
+            style="@style/customHeading"
+            />
+
+        <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/spending_by_category_pie_chart"
-            android:layout_below="@+id/spending_line_graph"
+            android:layout_below="@+id/spending_by_category_pie_chart_title"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/grey"
+            android:layout_height="350dp"
             android:layout_margin="20dp"
             />
 
