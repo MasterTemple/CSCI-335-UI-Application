@@ -40,6 +40,9 @@
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
             app:startIconDrawable="@drawable/ic_category"
+            app:helperText="@string/text_input_helper_text_required"
+            app:helperTextTextColor="@color/red"
+            app:endIconMode="clear_text"
             >
             <EditText
                 android:id="@+id/category_edit_name"
@@ -60,6 +63,8 @@
             android:hint="@string/hint_category_proportion_type"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:startIconDrawable="@drawable/ic_percent"
+            app:helperText="@string/text_input_helper_text_required"
+            app:helperTextTextColor="@color/red"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             >
@@ -75,6 +80,9 @@
             android:id="@+id/category_edit_proportion_value_layout"
             style="@style/customTextLayout"
             app:startIconDrawable="@drawable/ic_numbers"
+            app:helperText="@string/text_input_helper_text_required"
+            app:helperTextTextColor="@color/red"
+            app:endIconMode="clear_text"
             >
             <EditText
                 android:id="@+id/category_edit_proportion_value"

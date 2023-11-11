@@ -35,6 +35,9 @@
         android:id="@+id/transaction_edit_name_layout"
         style="@style/customTextLayout"
         app:startIconDrawable="@drawable/ic_bookmark"
+        app:helperText="@string/text_input_helper_text_required"
+        app:helperTextTextColor="@color/red"
+        app:endIconMode="clear_text"
         >
         <EditText
             android:id="@+id/transaction_edit_name"
@@ -50,6 +53,8 @@
         android:layout_below="@id/transaction_edit_name_layout"
         style="@style/customTextLayout"
         app:startIconDrawable="@drawable/ic_money"
+        app:helperText="@string/text_input_helper_text_required"
+        app:helperTextTextColor="@color/red"
         >
         <EditText
             android:id="@+id/transaction_edit_amount"
@@ -65,6 +70,9 @@
         android:layout_below="@id/transaction_edit_amount_layout"
         style="@style/customTextLayout"
         app:startIconDrawable="@drawable/ic_calendar"
+        app:helperText="@string/text_input_helper_text_required"
+        app:helperTextTextColor="@color/red"
+        app:endIconMode="clear_text"
         >
         <EditText
             android:id="@+id/transaction_edit_date"
@@ -85,6 +93,8 @@
         android:layout_below="@id/transaction_edit_date_layout"
         android:hint="@string/hint_transaction_category"
         app:startIconDrawable="@drawable/ic_category"
+        app:helperText="@string/text_input_helper_text_optional"
+        app:helperTextTextColor="@color/grey"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         >
         <AutoCompleteTextView
@@ -100,6 +110,9 @@
         android:layout_below="@id/transaction_edit_category_layout"
         style="@style/customTextLayout"
         app:startIconDrawable="@drawable/ic_description"
+        app:helperText="@string/text_input_helper_text_optional"
+        app:helperTextTextColor="@color/grey"
+        app:endIconMode="clear_text"
         >
         <EditText
             android:layout_width="match_parent"
