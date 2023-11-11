@@ -1,5 +1,6 @@
 package com.example.uigroupproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.uigroupproject.databinding.ActivityMainBinding;
@@ -40,6 +42,35 @@ public class MainActivity extends AppCompatActivity {
             setFragment(fragments.get(item.getItemId()));
             return true;
         });
+
+        // press home button N times for sample data
+        int SECRET_MENU_CLICKS_REQUIRED = 5;
+        MenuItem homeButton = binding.bottomNavigationView.getMenu().findItem(R.id.home);
+        int[] homeButtonClicks = {0}; // I can't use a normal integer for some reason
+        homeButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                homeButtonClicks[0]++;
+                if(homeButtonClicks[0] == SECRET_MENU_CLICKS_REQUIRED) {
+                    Database db = new Database(MainActivity.this);
+                    db.clearDatabase();
+                    db.loadSampleData();
+                    Settings settings = new Settings(MainActivity.this);
+                    settings.reset();
+                    settings.setBudget(400);
+                    finish();
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                }
+                return false;
+            }
+        });
+
+//        Database db = new Database(this);
+//        db.clearDatabase();
+//        db.loadSampleData();
+//        Settings settings = new Settings(this);
+//        settings.reset();
+//        settings.setBudget(400);
     }
     private void setFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -47,5 +78,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+//    private void restartActivity
 
 }

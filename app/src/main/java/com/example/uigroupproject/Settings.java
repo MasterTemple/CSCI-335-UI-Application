@@ -11,6 +11,9 @@ public class Settings {
     Settings(Context _context) {
         context = _context;
         settings = context.getSharedPreferences(PREFERENCES, 0);
+        if(!settings.contains("budget")) {
+            settings.edit().putFloat("budget", 0f).apply();
+        }
         float floatBudget = 0;
         floatBudget = settings.getFloat("budget", floatBudget);
         budget = floatBudget;

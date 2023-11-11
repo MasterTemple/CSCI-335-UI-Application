@@ -31,7 +31,7 @@ public class CategoryData {
         if(type.contentEquals(PERCENT)) {
             return String.format("%.0f%%", value);
         } else if(type.contentEquals(FIXED_VALUE)) {
-            return String.format("%.0f%%", 100 / (budget / value));
+            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
         }
         return EMPTY_VALUE;
     }

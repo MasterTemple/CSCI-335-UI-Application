@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Database extends SQLiteOpenHelper {
     private static Database DB;
@@ -232,6 +234,21 @@ public class Database extends SQLiteOpenHelper {
         return transactionsThisMonth;
     }
 
+    public void clearTransactions() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TRANSACTION_TABLE);
+    }
+
+    public void clearCategories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CATEGORY_TABLE);
+    }
+
+    public void clearDatabase() {
+        clearTransactions();
+        clearCategories();
+    }
+
     public void loadSampleData() {
         if(getAllTransactions().size() + getAllCategories().size() != 0)
             return;
@@ -240,11 +257,15 @@ public class Database extends SQLiteOpenHelper {
         createCategory(new CategoryData("Food", "Percent", (double) 30));
         createCategory(new CategoryData("Spotify", "Fixed Value", (double) 10));
 
-        createTransaction(new TransactionData("In-N-Out", (double) 12, "11/01/2023", (long) 3, ""));
-        createTransaction(new TransactionData("Spotify Premium", (double) 11, "11/02/2023", (long) 4, ""));
-        createTransaction(new TransactionData("Keyboard", (double) 80, "11/04/2023", (long) 2, ""));
-        createTransaction(new TransactionData("Caf Swipe", (double) 11.30, "11/05/2023", (long) 3, ""));
-        createTransaction(new TransactionData("Athletic Shirt", (double) 7.00, "11/07/2023", (long) 1, ""));
+        List<CategoryData> categories = getAllCategories();
+        Map<String, CategoryData> categoryDataMap = new HashMap<>();
+        for(CategoryData c: categories) categoryDataMap.put(c.name, c);
+
+        createTransaction(new TransactionData("In-N-Out", (double) 12, "11/01/2023", categoryDataMap.get("Food").id, ""));
+        createTransaction(new TransactionData("Spotify Premium", (double) 11, "11/02/2023", categoryDataMap.get("Spotify").id, ""));
+        createTransaction(new TransactionData("Keyboard", (double) 80, "11/04/2023", categoryDataMap.get("Technology").id, ""));
+        createTransaction(new TransactionData("Caf Swipe", (double) 11.30, "11/05/2023", categoryDataMap.get("Food").id, ""));
+        createTransaction(new TransactionData("Athletic Shirt", (double) 7.00, "11/07/2023", categoryDataMap.get("Clothes").id, ""));
         createTransaction(new TransactionData("Holiness - J.C. Ryle", (double) 18.00, "11/09/2023", (long) -1, ""));
     }
 }

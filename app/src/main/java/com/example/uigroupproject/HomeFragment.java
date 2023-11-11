@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment {
         int daysLeftThisMonth = getDaysLeftInMonth();
         Double remainingValue = budget - spentThisMonth;
         Double remainingPercent = remainingValue * 100;
-        progressBar.setProgress((int)Math.floor(remainingPercent/budget));
-        percentRemaining.setText(String.format("%.1f%%", remainingPercent/budget));
+        progressBar.setProgress(budget == 0 ? 0 : (int)Math.floor(remainingPercent/budget));
+        percentRemaining.setText(String.format("%.1f%%", budget == 0 ? 0 : remainingPercent/budget));
         dollarsRemaining.setText(String.format("$%.2f", remainingValue));
         dailyBudget.setText(String.format("$%.2f", remainingValue / daysLeftThisMonth));
     }
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new Database(context);
-        db.loadSampleData();
+//        db.loadSampleData();
 //        transactions = db.getAllTransactions();
     }
 
