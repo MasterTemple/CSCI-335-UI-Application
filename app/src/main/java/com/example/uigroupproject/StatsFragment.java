@@ -140,7 +140,7 @@ public class StatsFragment extends Fragment {
         List<CategoryData> categoriesActual = new ArrayList<>();
         for(CategoryData c: categories) {
             // hack so i dont have to redo it
-            categoriesActual.add(new CategoryData(c.id, c.name, c.type, spendingByCategory.get(c.id)));
+            categoriesActual.add(new CategoryData(c.id, c.name, "Fixed Value", spendingByCategory.get(c.id)));
         }
 //        double noCategoryMoney = spendingByCategory.get((long)-1);
         CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get((long)-1));

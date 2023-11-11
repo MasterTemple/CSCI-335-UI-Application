@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new Database(context);
+        db.loadSampleData();
 //        transactions = db.getAllTransactions();
     }
 

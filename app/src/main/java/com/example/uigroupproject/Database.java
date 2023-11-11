@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
     private static Database DB;
-    private static final String NAME = "test_db_0x01";
+    private static final String NAME = "test_db_0x02";
     private static final int VERSION = 1;
     private static final String CATEGORY_TABLE = "categories";
     private static final String TRANSACTION_TABLE = "transactions";
@@ -230,5 +230,21 @@ public class Database extends SQLiteOpenHelper {
             }
         }
         return transactionsThisMonth;
+    }
+
+    public void loadSampleData() {
+        if(getAllTransactions().size() + getAllCategories().size() != 0)
+            return;
+        createCategory(new CategoryData("Clothes", "Percent", (double) 10));
+        createCategory(new CategoryData("Technology", "Percent", (double) 20));
+        createCategory(new CategoryData("Food", "Percent", (double) 30));
+        createCategory(new CategoryData("Spotify", "Fixed Value", (double) 10));
+
+        createTransaction(new TransactionData("In-N-Out", (double) 12, "11/01/2023", (long) 3, ""));
+        createTransaction(new TransactionData("Spotify Premium", (double) 11, "11/02/2023", (long) 4, ""));
+        createTransaction(new TransactionData("Keyboard", (double) 80, "11/04/2023", (long) 2, ""));
+        createTransaction(new TransactionData("Caf Swipe", (double) 11.30, "11/05/2023", (long) 3, ""));
+        createTransaction(new TransactionData("Athletic Shirt", (double) 7.00, "11/07/2023", (long) 1, ""));
+        createTransaction(new TransactionData("Holiness - J.C. Ryle", (double) 18.00, "11/09/2023", (long) -1, ""));
     }
 }
