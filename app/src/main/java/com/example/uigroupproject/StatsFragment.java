@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -20,6 +22,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +30,11 @@ import java.util.Map;
 
 public class StatsFragment extends Fragment {
     private Context context;
+    private RecyclerView recyclerView;
+    private View view;
+    private CategoryListAdapter adapter;
+    List<TransactionData> transactions;
+    List<CategoryData> categories;
     public StatsFragment() {}
     public StatsFragment(Context _context) {
         context = _context;
@@ -38,14 +46,15 @@ public class StatsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stats, container, false);
+        view = inflater.inflate(R.layout.fragment_stats, container, false);
+        recyclerView = view.findViewById(R.id.spending_by_category_list);
+        Database db = new Database(context);
+        transactions = db.getAllTransactionsInPastMonth();
+        categories = db.getAllCategories();
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        Database db = new Database(context);
         Settings settings = new Settings(context);
         Double budget = settings.budget;
-        List<TransactionData> transactions = db.getAllTransactionsInPastMonth();
-        List<CategoryData> categories = db.getAllCategories();
         Map<Long, Double> spendingByCategory = new HashMap<>();
         Map<Long, Double> budgetedByCategory = new HashMap<>();
         Map<Long, CategoryData> categoriesById = new HashMap<>();
@@ -128,6 +137,19 @@ public class StatsFragment extends Fragment {
         int ms = 700;
         lineChart.animateXY(ms, ms);
 
+        List<CategoryData> categoriesActual = new ArrayList<>();
+        for(CategoryData c: categories) {
+            // hack so i dont have to redo it
+            categoriesActual.add(new CategoryData(c.id, c.name, c.type, spendingByCategory.get(c.id)));
+        }
+//        double noCategoryMoney = spendingByCategory.get((long)-1);
+        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get((long)-1));
+//        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get(-1));
+        categoriesActual.add(noCategory);
+        categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
+        adapter = new CategoryListAdapter(categoriesActual, context);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         return view;
     }
