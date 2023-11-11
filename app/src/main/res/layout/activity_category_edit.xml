@@ -68,6 +68,7 @@
             app:helperTextTextColor="@color/red"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            app:errorEnabled="true"
             >
             <AutoCompleteTextView
                 android:id="@+id/category_edit_proportion_type_autocomplete"
@@ -85,6 +86,7 @@
             app:helperTextTextColor="@color/red"
             app:endIconMode="clear_text"
             android:layout_below="@id/category_edit_proportion_type_layout"
+            app:errorEnabled="true"
             >
             <EditText
                 android:id="@+id/category_edit_proportion_value"

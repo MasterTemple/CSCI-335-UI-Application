@@ -25,9 +25,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -117,38 +119,32 @@ public class TransactionEditActivity extends AppCompatActivity {
         editButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                String name = inputName.getText().toString();
-                inputName.setText(name);
+                TextInputLayout[] inputLayoutsArray = { inputNameLayout, inputAmountLayout, inputDateLayout, inputCategoryLayout};
+                List<TextInputLayout> inputLayouts = Arrays.asList(inputLayoutsArray);
+                for(TextInputLayout l: inputLayouts) {
+                    String value = l.getEditText().getText().toString();
+                    l.getEditText().setText(value);
+                }
+                boolean allInputsValid = inputLayouts.stream().allMatch(l -> l.getError() == null);
+                if(!allInputsValid) {
+                    Optional<TextInputLayout> invalidInput = inputLayouts.stream().filter(l -> l.getError() != null).findFirst();
+                    if(invalidInput.isPresent())
+                        invalidInput.get().getEditText().requestFocus();
+                    return true;
+                }
 
                 String amountString = inputAmount.getText().toString();
                 double amount = 0.0;
                 if(amountString.length() != 0) {
                     amount = Double.parseDouble(amountString);
                 }
-                inputAmount.setText(amountString);
-
-                String date = inputDate.getText().toString();
-                inputDate.setText(date);
-
-//                Long categoryId = (long)-1;
-//                try {
-//                    categoryId = Long.parseLong(inputCategoryId.getText().toString());
-//                inputCategoryId.setText(inputCategoryId.getText());
-//                } catch(Exception e) {}
-                String description = inputDescription.getText().toString();
-                inputDescription.setText(description);
-
-                // if anything has an error, stop
-                boolean inputNameHasError = inputNameLayout.getError() != null;
-                boolean inputAmountHasError = inputAmountLayout.getError() != null;
-                boolean inputDateHasError = inputDateLayout.getError() != null;
-                boolean inputCategoryIdHasError = inputCategoryLayout.getError() != null;
-//                boolean inputDescription = inpu;
-                if( inputNameHasError || inputAmountHasError|| inputDateHasError || inputCategoryIdHasError )
-                    return true;
-
-                // validate end
-                TransactionData transaction = new TransactionData(name, amount, date, categoryId, description);
+                TransactionData transaction = new TransactionData(
+                        inputName.getText().toString(),
+                        amount,
+                        inputDate.getText().toString(),
+                        categoryId,
+                        inputDescription.getText().toString()
+                );
                 if(isNew) {
                     db.createTransaction(transaction);
                 }

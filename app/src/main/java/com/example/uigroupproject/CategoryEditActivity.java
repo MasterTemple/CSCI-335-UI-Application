@@ -19,6 +19,9 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class CategoryEditActivity extends AppCompatActivity {
     EditText inputCategoryName;
@@ -71,9 +74,20 @@ public class CategoryEditActivity extends AppCompatActivity {
         editButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-//                EditText name = findViewById(R.id.category_edit_name);
-//                EditText type = findViewById(R.id.category_edit_proportion_type);
-//                EditText value = findViewById(R.id.category_edit_proportion_value);
+                TextInputLayout[] inputLayoutsArray = { inputCategoryNameLayout, inputCategoryTypeLayout, inputCategoryValueLayout };
+                List<TextInputLayout> inputLayouts = Arrays.asList(inputLayoutsArray);
+                for(TextInputLayout l: inputLayouts) {
+                    String value = l.getEditText().getText().toString();
+                    l.getEditText().setText(value);
+                }
+                boolean allInputsValid = inputLayouts.stream().allMatch(l -> l.getError() == null);
+                if(!allInputsValid) {
+                    Optional<TextInputLayout> invalidInput = inputLayouts.stream().filter(l -> l.getError() != null).findFirst();
+                    if(invalidInput.isPresent())
+                        invalidInput.get().getEditText().requestFocus();
+                    return true;
+                }
+
                 String inputValue = inputCategoryValue.getText().toString();
                 if(inputValue.length() == 0) inputValue = "0";
                 CategoryData category = new CategoryData(
@@ -115,7 +129,7 @@ public class CategoryEditActivity extends AppCompatActivity {
             inputCategoryValue.setText(String.format("%.2f", category.value));
         }
         inputCategoryName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputCategoryNameLayout));
-        inputCategoryType.addTextChangedListener(ErrorHandling.checkWithinList(inputCategoryTypeLayout, categoryTypes));
+        inputCategoryType.addTextChangedListener(ErrorHandling.checkWithinList(inputCategoryTypeLayout, categoryTypes, false));
         inputCategoryValue.addTextChangedListener(ErrorHandling.checkForNonNegativeField(inputCategoryValueLayout));
     }
 }
