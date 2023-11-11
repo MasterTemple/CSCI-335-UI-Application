@@ -91,7 +91,7 @@ public class TransactionEditActivity extends AppCompatActivity {
                 CategoryData category = categories.get((int)id);
                 categoryId = category.id;
 //                Toast.makeText(TransactionEditActivity.this, item, Toast.LENGTH_SHORT).show();
-                Toast.makeText(TransactionEditActivity.this, String.format("%d - %s", category.id, category.name), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(TransactionEditActivity.this, String.format("%d - %s", category.id, category.name), Toast.LENGTH_SHORT).show();
 //                CategoryData category
 //                TextInputLayout inputCategoryIdLayout = findViewById(R.id.transaction_edit_category);
 //                EditText inputCategoryIdLayoutEditText = inputCategoryIdLayout.getEditText();

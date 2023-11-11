@@ -52,6 +52,18 @@ public class CategoryEditActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
+                if(item.equals("None")) {
+                    inputCategoryValue.setEnabled(false);
+                    inputCategoryValue.setText("0");
+                    inputCategoryValueLayout.setError(null);
+                    inputCategoryValueLayout.setHelperText(null);
+                }
+                else {
+                    inputCategoryValue.setEnabled(true);
+                    inputCategoryValue.setText("");
+                    inputCategoryValueLayout.setError(null);
+                    inputCategoryValueLayout.setHelperText(getResources().getString(R.string.text_input_helper_text_required));
+                }
             }
         });
 
