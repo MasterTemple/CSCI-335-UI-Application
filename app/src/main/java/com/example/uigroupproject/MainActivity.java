@@ -21,6 +21,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    Database db;
+    Settings settings;
     Map<Integer, Fragment> fragments = new HashMap<>();
 
     @Override
@@ -36,34 +38,57 @@ public class MainActivity extends AppCompatActivity {
         fragments.put(R.id.home, new HomeFragment(this));
         fragments.put(R.id.stats, new StatsFragment(this));
         fragments.put(R.id.budget, new BudgetFragment(this));
+        db = new Database(MainActivity.this);
+        settings = new Settings(MainActivity.this);
         setFragment(fragments.get(R.id.home));
 
+        int SECRET_MENU_CLICKS_REQUIRED = 5;
+        int[] homeButtonClicks = {0, 0, 0}; // I can't use a normal integer for some reason
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            setFragment(fragments.get(item.getItemId()));
+            int id = item.getItemId();
+            if(id == R.id.home) {
+                homeButtonClicks[1]++;
+                if(homeButtonClicks[1] == SECRET_MENU_CLICKS_REQUIRED) {
+                    clearEverything();
+                    setSampleData();
+                    restartActivity();
+                }
+            } else {
+                homeButtonClicks[1] = 0;
+            }
+            if(id == R.id.budget) {
+                homeButtonClicks[2]++;
+                if(homeButtonClicks[2] == SECRET_MENU_CLICKS_REQUIRED) {
+                    clearEverything();
+                    restartActivity();
+                }
+
+            } else {
+                homeButtonClicks[2] = 0;
+            }
+            setFragment(fragments.get(id));
             return true;
         });
 
         // press home button N times for sample data
-        int SECRET_MENU_CLICKS_REQUIRED = 5;
-        MenuItem homeButton = binding.bottomNavigationView.getMenu().findItem(R.id.home);
-        int[] homeButtonClicks = {0}; // I can't use a normal integer for some reason
-        homeButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem item) {
-                homeButtonClicks[0]++;
-                if(homeButtonClicks[0] == SECRET_MENU_CLICKS_REQUIRED) {
-                    Database db = new Database(MainActivity.this);
-                    db.clearDatabase();
-                    db.loadSampleData();
-                    Settings settings = new Settings(MainActivity.this);
-                    settings.reset();
-                    settings.setBudget(400);
-                    finish();
-                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-                }
-                return false;
-            }
-        });
+//        MenuItem homeButton = binding.bottomNavigationView.getMenu().findItem(R.id.home);
+//        homeButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(@NonNull MenuItem item) {
+//                homeButtonClicks[0]++;
+//                if(homeButtonClicks[0] == SECRET_MENU_CLICKS_REQUIRED) {
+//                    Database db = new Database(MainActivity.this);
+//                    db.clearDatabase();
+//                    db.loadSampleData();
+//                    Settings settings = new Settings(MainActivity.this);
+//                    settings.reset();
+//                    settings.setBudget(400);
+//                    finish();
+//                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                }
+//                return false;
+//            }
+//        });
 
 //        Database db = new Database(this);
 //        db.clearDatabase();
@@ -78,6 +103,17 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
-//    private void restartActivity
+    private void restartActivity() {
+        finish();
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
+    }
+    private void clearEverything() {
+        db.clearDatabase();
+        settings.reset();
+    }
+    private void setSampleData() {
+        db.loadSampleData();
+        settings.setBudget(400);
+    }
 
 }
