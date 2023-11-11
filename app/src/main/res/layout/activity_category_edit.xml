@@ -63,7 +63,7 @@
             android:layout_below="@id/category_edit_name_layout"
             android:hint="@string/hint_category_proportion_type"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            app:startIconDrawable="@drawable/ic_percent"
+            app:startIconDrawable="@drawable/ic_proportion"
             app:helperText="@string/text_input_helper_text_required"
             app:helperTextTextColor="@color/red"
             android:paddingStart="15dp"

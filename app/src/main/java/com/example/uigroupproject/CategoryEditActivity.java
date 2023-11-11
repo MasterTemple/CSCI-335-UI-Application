@@ -52,6 +52,9 @@ public class CategoryEditActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
+                if(item.equals("Fixed Value")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
+                if(item.equals("Percent")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
+                if(item.equals("None")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
                 if(item.equals("None")) {
                     inputCategoryValue.setEnabled(false);
                     inputCategoryValue.setText("0");

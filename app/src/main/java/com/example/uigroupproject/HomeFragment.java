@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,8 @@ public class HomeFragment extends Fragment {
         Double remainingValue = budget - spentThisMonth;
         Double remainingPercent = remainingValue * 100;
         progressBar.setProgress(budget == 0 ? 0 : (int)Math.floor(remainingPercent/budget));
+        progressBar.setTrackThickness(20);
+//        progressBar.setIndicatorColor(ContextCompat.getColor(context, R.color.green));
         percentRemaining.setText(String.format("%.1f%%", budget == 0 ? 0 : remainingPercent/budget));
         dollarsRemaining.setText(String.format("$%.2f", remainingValue));
         dailyBudget.setText(String.format("$%.2f", remainingValue / daysLeftThisMonth));
