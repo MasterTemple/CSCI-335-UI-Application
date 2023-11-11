@@ -72,7 +72,8 @@
         app:startIconDrawable="@drawable/ic_calendar"
         app:helperText="@string/text_input_helper_text_required"
         app:helperTextTextColor="@color/red"
-        app:endIconMode="clear_text"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_date_picker"
         >
         <EditText
             android:id="@+id/transaction_edit_date"

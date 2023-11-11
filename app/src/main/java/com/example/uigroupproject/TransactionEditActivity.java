@@ -16,12 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class TransactionEditActivity extends AppCompatActivity {
     List<CategoryData> categories = new ArrayList<>();
@@ -163,5 +168,45 @@ public class TransactionEditActivity extends AppCompatActivity {
 //                categoryId.setText(transaction.description);
             inputDescription.setText(transaction.description);
         }
+
+        TextInputLayout dateInputLayout = findViewById(R.id.transaction_edit_date_layout);
+        dateInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCalendarDialog();
+            }
+        });
+
     }
+
+    public void showCalendarDialog() {
+//        long selection = MaterialDatePicker.todayInUtcMilliseconds();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+        long selection;
+        try {
+            Date today = sdf.parse(inputDate.getText().toString());
+            selection = today.getTime();
+        } catch (Exception e) {
+            selection = MaterialDatePicker.todayInUtcMilliseconds();
+        }
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Date")
+                .setSelection(selection)
+                .build();
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                TimeZone timeZone = TimeZone.getDefault();
+                int offset = timeZone.getOffset(selection);
+                selection -= offset;
+                date.setTimeZone(timeZone);
+                String dateString = date.format(new Date(selection));
+                inputDate.setText(dateString);
+            }
+        });
+        materialDatePicker.show(getSupportFragmentManager(), "tag");
+
+    }
+
 }
