@@ -146,12 +146,18 @@ public class TransactionEditActivity extends AppCompatActivity {
 //            inputDate = findViewById(R.id.transaction_edit_date);
 //            inputCategoryId = findViewById(R.id.transaction_edit_category_autocomplete);
 //            inputDescription = findViewById(R.id.transaction_edit_description);
+            if(transaction == null) {
+                transaction = db.getTransactionFromId(transactionId);
+            }
 
             inputName.setText(transaction.name);
             inputAmount.setText(String.format("%.2f", transaction.amount));
             inputDate.setText(transaction.getFormattedDate());
-            inputCategoryId.setText(transaction.categoryName);
             categoryId = transaction.categoryId;
+            if(categoryId == -1)
+                inputCategoryId.setText("");
+            else
+                inputCategoryId.setText(transaction.categoryName);
 //            inputCategoryId.select
 //            if(transaction.categoryId != null)
 //                categoryId.setText(transaction.description);

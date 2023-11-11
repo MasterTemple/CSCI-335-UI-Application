@@ -105,8 +105,15 @@ public class Database extends SQLiteOpenHelper {
         updateFromData(TRANSACTION_TABLE, data, id);
     }
 
+    private void removeDeletedCategoryFromTransactions(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TRANSACTION_TABLE + " SET categoryId = -1 WHERE categoryId = ?", new String[] {String.valueOf(id)});
+    }
+
+
     public void deleteCategory(long id) {
         deleteById(CATEGORY_TABLE, id);
+        removeDeletedCategoryFromTransactions(id);
     }
     public void deleteTransaction(long id) {
         deleteById(TRANSACTION_TABLE, id);
@@ -182,9 +189,12 @@ public class Database extends SQLiteOpenHelper {
     public List<TransactionData> getAllTransactions() {
         List<TransactionData> transactions = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + TRANSACTION_TABLE + ".*, " + CATEGORY_TABLE + ".name as categoryName FROM "
-        + TRANSACTION_TABLE + ", " + CATEGORY_TABLE
-        + " WHERE " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id or " + TRANSACTION_TABLE + ".categoryId = -1";
+//        String sql = "SELECT " + TRANSACTION_TABLE + ".*, " + CATEGORY_TABLE + ".name as categoryName FROM "
+//        + TRANSACTION_TABLE + ", " + CATEGORY_TABLE
+//        + " WHERE " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id or " + TRANSACTION_TABLE + ".categoryId = -1";
+        String sql = "SELECT " + TRANSACTION_TABLE + ".*, (CASE WHEN " + TRANSACTION_TABLE + ".categoryId = -1 THEN 'No Category' ELSE " + CATEGORY_TABLE + ".name END) as categoryName FROM "
+                + TRANSACTION_TABLE + " LEFT JOIN " + CATEGORY_TABLE
+                + " ON " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id";
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.moveToFirst()) {
             do {
