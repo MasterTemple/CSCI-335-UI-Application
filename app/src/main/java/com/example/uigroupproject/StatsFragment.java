@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -150,6 +152,35 @@ public class StatsFragment extends Fragment {
         adapter = new CategoryListAdapter(categoriesActual, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        TabLayout byCategoryTabLayout = view.findViewById(R.id.spending_by_category_pie_chart_tab_layout);
+        view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.spending_by_category_list).setVisibility(View.INVISIBLE);
+        byCategoryTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String selectedName = tab.getText().toString();
+                Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
+                if(selectedName.equals("Pie Chart")) {
+                    view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.spending_by_category_list).setVisibility(View.INVISIBLE);
+                }
+                else {
+                    view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.spending_by_category_list).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return view;
     }

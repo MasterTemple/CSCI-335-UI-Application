@@ -9,57 +9,106 @@
     >
 
         <TextView
+            android:id="@+id/spending_by_category_pie_chart_title"
+            android:text="Spending by Category"
+            style="@style/customHeading"
+            />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/spending_by_category_pie_chart_tab_layout"
+            android:layout_below="@id/spending_by_category_pie_chart_title"
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            android:layout_height="wrap_content">
+            <com.google.android.material.tabs.TabItem
+                android:text="Pie Chart"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+            <com.google.android.material.tabs.TabItem
+                android:text="Data Table"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </com.google.android.material.tabs.TabLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="350dp"
+            android:id="@+id/pie_view"
+            android:layout_below="@+id/spending_by_category_pie_chart_tab_layout"
+            >
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/spending_by_category_pie_chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/spending_by_category_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp" />
+        </RelativeLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_below="@+id/pie_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
             android:id="@+id/spending_line_graph_title"
+            android:layout_below="@id/pie_view"
+            android:layout_marginTop="10dp"
             android:text="Amount Remaining This Month"
             style="@style/customHeading"
             />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/spending_line_graph"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/spending_line_graph_tab_layout"
             android:layout_below="@id/spending_line_graph_title"
             android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            android:layout_height="wrap_content">
+            <com.google.android.material.tabs.TabItem
+                android:text="Line Graph"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+            <com.google.android.material.tabs.TabItem
+                android:text="Data Table"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </com.google.android.material.tabs.TabLayout>
+
+        <RelativeLayout
+            android:id="@+id/line_view"
+            android:layout_width="wrap_content"
             android:layout_height="350dp"
-            android:layout_margin="20dp"
-            />
+            android:layout_below="@id/spending_line_graph_tab_layout">
 
-        <TextView
-            android:id="@+id/spending_by_category_pie_chart_title"
-            android:layout_below="@id/spending_line_graph"
-            android:text="Spending by Category"
-            style="@style/customHeading"
-            />
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/spending_line_graph"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/spending_by_category_pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_below="@+id/spending_by_category_pie_chart_title"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp" />
-
-        <TextView
-            android:id="@+id/spending_by_category_table_title"
-            android:layout_below="@id/spending_by_category_pie_chart"
-            android:text="Spending by Category"
-            style="@style/customHeading"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/spending_by_category_list"
-            android:layout_below="@+id/spending_by_category_table_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            />
+        </RelativeLayout>
 
         <View
             android:id="@+id/stats_list"
-            android:layout_below="@+id/spending_by_category_list"
+            android:layout_below="@+id/line_view"
             android:layout_width="match_parent"
-            android:layout_height="950dp"
-            android:background="@color/grey"
+            android:layout_height="50dp"
+            android:background="@color/white"
             android:layout_margin="20dp"
             />
 
