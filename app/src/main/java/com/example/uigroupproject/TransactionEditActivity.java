@@ -15,11 +15,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParsePosition;
@@ -157,13 +159,17 @@ public class TransactionEditActivity extends AppCompatActivity {
         });
 
         Button deleteButton = findViewById(R.id.transaction_delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.deleteTransaction(transactionId);
-                finish();
-            }
+        deleteButton.setOnClickListener(v -> {
+            AlertDialog alert = new MaterialAlertDialogBuilder(TransactionEditActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
+                    .setTitle("Confirm Deletion")
+                    .setMessage("Are you sure that you want to delete this transaction?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        db.deleteTransaction(transactionId);
+                        finish();
+                    }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).setCancelable(true).create();
+            alert.show();
         });
+
         if(isNew) {
             // hide delete buttons
             deleteButton.setVisibility(View.INVISIBLE);
