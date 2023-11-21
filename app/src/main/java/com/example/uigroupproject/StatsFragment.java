@@ -29,12 +29,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class StatsFragment extends Fragment {
     private Context context;
-    private RecyclerView recyclerView;
     private View view;
-    private CategoryListAdapter adapter;
     List<TransactionData> transactions;
     List<CategoryData> categories;
     public StatsFragment() {}
@@ -49,22 +48,20 @@ public class StatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_stats, container, false);
-        recyclerView = view.findViewById(R.id.spending_by_category_list);
+        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
         Database db = new Database(context);
         transactions = db.getAllTransactionsInPastMonth();
         categories = db.getAllCategories();
 
         ArrayList<PieEntry> entries = new ArrayList<>();
         Settings settings = new Settings(context);
-        Double budget = settings.budget;
+        double budget = settings.budget;
         Map<Long, Double> spendingByCategory = new HashMap<>();
-        Map<Long, Double> budgetedByCategory = new HashMap<>();
         Map<Long, CategoryData> categoriesById = new HashMap<>();
         // initialize map
         for(CategoryData category: categories) {
             spendingByCategory.put(category.id, 0.0);
             categoriesById.put(category.id, category);
-//            budgetedByCategory.put(category.id, Double.parseDouble(category.getPercent(context)));
         }
         spendingByCategory.put((long)-1, 0.0);
         for(TransactionData transaction: transactions) {
@@ -78,10 +75,10 @@ public class StatsFragment extends Fragment {
                 continue;
 
             if(categoryId == -1){
-                entries.add(new PieEntry(Float.valueOf(amount.toString()), NO_CATEGORY));
+                entries.add(new PieEntry(Float.parseFloat(amount.toString()), NO_CATEGORY));
             } else {
                 CategoryData category = categoriesById.get(categoryId);
-                entries.add(new PieEntry(Float.valueOf(amount.toString()), category.name));
+                entries.add(new PieEntry(Float.parseFloat(amount.toString()), category.name));
             }
 
         }
@@ -149,7 +146,7 @@ public class StatsFragment extends Fragment {
 //        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get(-1));
         categoriesActual.add(noCategory);
         categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
-        adapter = new CategoryListAdapter(categoriesActual, context);
+        CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -159,7 +156,7 @@ public class StatsFragment extends Fragment {
         byCategoryTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                String selectedName = tab.getText().toString();
+                String selectedName = Objects.requireNonNull(tab.getText()).toString();
                 Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
                 if(selectedName.equals("Pie Chart")) {
                     view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.VISIBLE);

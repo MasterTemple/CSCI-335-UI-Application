@@ -35,10 +35,6 @@ public class BudgetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        categories.add(new CategoryData("Food", "Percent", 10));
-//        categories.add(new CategoryData("Peter", "Fixed Value", 40));
-//        categories.add(new CategoryData("Water", "Percent", 30));
-//        categories.add(new CategoryData("Help", "Percent", 40));
         db = new Database(context);
         categories = db.getAllCategories();
     }
@@ -55,40 +51,25 @@ public class BudgetFragment extends Fragment {
         TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
         budgetDisplay.setText(String.format("$%.2f", new Settings(context).budget));
         Button addCategoryButton = view.findViewById(R.id.add_category_button);
-        addCategoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addCategory();
-            }
-        });
+        addCategoryButton.setOnClickListener(v -> addCategory());
+
         Button editBudgetButton = view.findViewById(R.id.edit_budget_button);
-        editBudgetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_budget, null);
-                AlertDialog alert = new MaterialAlertDialogBuilder(context)
-                        .setTitle("Enter Budget")
-                        .setView(dialogView)
-                        .setPositiveButton("Set", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
-                                TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
-                                EditText newBudget = dialogView.findViewById(R.id.dialog_edit_budget_text);
-                                Settings settings = new Settings(context);
+        editBudgetButton.setOnClickListener(v -> {
+            View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_budget, null);
+            AlertDialog alert = new MaterialAlertDialogBuilder(context)
+                    .setTitle("Enter Budget")
+                    .setView(dialogView)
+                    .setPositiveButton("Set", (dialog, which) -> {
+                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+                        TextView budgetDisplay1 = view.findViewById(R.id.monthly_budget_value);
+                        EditText newBudget = dialogView.findViewById(R.id.dialog_edit_budget_text);
+                        Settings settings = new Settings(context);
 //                                settings.budget = Double.parseDouble(newBudget.getText().toString());
-                                settings.setBudget(Double.parseDouble(newBudget.getText().toString()));
-                                budgetDisplay.setText(String.format("$%.2f", settings.budget));
-                                updateCategoryList();
-                            }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
-                alert.show();
-            }
+                        settings.setBudget(Double.parseDouble(newBudget.getText().toString()));
+                        budgetDisplay1.setText(String.format("$%.2f", settings.budget));
+                        updateCategoryList();
+                    }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).create();
+            alert.show();
         });
         return view;
     }

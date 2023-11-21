@@ -7,7 +7,7 @@ public class Settings {
     public Context context;
     public SharedPreferences settings;
     public static final String PREFERENCES = "settings";
-    public double budget = 200;
+    public double budget;
     Settings(Context _context) {
         context = _context;
         settings = context.getSharedPreferences(PREFERENCES, 0);

@@ -1,6 +1,5 @@
 package com.example.uigroupproject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,38 +20,7 @@ public class TransactionData {
             return null;
         }
     }
-    public TransactionData() {}
 
-    // must have name and amount
-    public TransactionData(String _name, Double _amount) {
-        this(_name, _amount, "");
-    }
-
-    public TransactionData(String _name, Double _amount, Date _date) {
-        this(_name, _amount, "", _date);
-    }
-//    public TransactionData(String _name, Double _amount, String _date) {
-//        this(_name, _amount, "", dateFromString(_date));
-//    }
-
-    public TransactionData(String _name, Double _amount, String _description) {
-        this(_name, _amount, _description, new Date());
-    }
-
-    public TransactionData(String _name, Double _amount, String _description, Date _date) {
-        name = _name;
-        amount = _amount;
-        description = _description;
-        date = _date;
-    }
-
-    public TransactionData(String _name, Double _amount, Date _date, long _categoryId, String _description) {
-        name = _name;
-        amount = _amount;
-        date = _date;
-        categoryId = _categoryId;
-        description = _description;
-    }
     public TransactionData(String _name, Double _amount, String _date, long _categoryId, String _description) {
         name = _name;
         amount = _amount;
@@ -61,14 +29,6 @@ public class TransactionData {
         description = _description;
     }
 
-    public TransactionData(long _id, String _name, Double _amount, String _date, long _categoryId, String _description) {
-        id = _id;
-        name = _name;
-        amount = _amount;
-        date = dateFromString(_date);
-        categoryId = _categoryId;
-        description = _description;
-    }
 
     public TransactionData(long _id, String _name, Double _amount, String _date, long _categoryId, String _categoryName, String _description) {
         id = _id;

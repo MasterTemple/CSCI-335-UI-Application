@@ -3,32 +3,24 @@ package com.example.uigroupproject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-import java.time.Month;
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private List<TransactionData> transactions = new ArrayList<>();
     private RecyclerView recyclerView;
-    private TransactionListAdapter adapter;
     private Context context;
     private Database db;
     private View view;
@@ -45,14 +37,14 @@ public class HomeFragment extends Fragment {
         LinearProgressIndicator progressBar = view.findViewById(R.id.home_progress_bar);
         Database db = new Database(context);
         Settings settings = new Settings(context);
-        Double budget = settings.budget;
+        double budget = settings.budget;
         List<TransactionData> transactions = db.getAllTransactions();
-        Double spentThisMonth = 0.0;
+        double spentThisMonth = 0.0;
         for(TransactionData t: transactions) {
             spentThisMonth += t.amount;
         }
         int daysLeftThisMonth = getDaysLeftInMonth();
-        Double remainingValue = budget - spentThisMonth;
+        double remainingValue = budget - spentThisMonth;
         Double remainingPercent = remainingValue * 100;
         progressBar.setProgress(budget == 0 ? 0 : (int)Math.floor(remainingPercent/budget));
         progressBar.setTrackThickness(20);
@@ -81,20 +73,10 @@ public class HomeFragment extends Fragment {
         updateTransactionList();
         setValues();
         Button viewAllButton = view.findViewById(R.id.view_all_button);
-        viewAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewAllTransactions();
-            }
-        });
+        viewAllButton.setOnClickListener(v -> viewAllTransactions());
 
         Button addTransactionButton = view.findViewById(R.id.add_transaction_button);
-        addTransactionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTransaction();
-            }
-        });
+        addTransactionButton.setOnClickListener(v -> addTransaction());
         return view;
     }
     private void addTransaction() {
@@ -108,11 +90,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTransactionList() {
-        transactions = db.getAllTransactions();
+        List<TransactionData> transactions = db.getAllTransactions();
         Collections.reverse(transactions);
 //        int index = transactions.size() > 3 ? 3 : transactions.size();
 //        transactions = transactions.subList(0, index);
-        adapter = new TransactionListAdapter(transactions, context);
+        TransactionListAdapter adapter = new TransactionListAdapter(transactions, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }

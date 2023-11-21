@@ -6,10 +6,8 @@ import android.text.TextWatcher;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +52,7 @@ public class ErrorHandling {
                     layout.setError(errorMessage);
                     return;
                 }
-                Double value = Double.parseDouble(s.toString());
+                double value = Double.parseDouble(s.toString());
                 if(value < 0)
                     layout.setError(errorMessage);
                 else
@@ -98,9 +96,6 @@ public class ErrorHandling {
             }
         };
     }
-    public static TextWatcher checkWithinList(TextInputLayout layout, List<String> possibleValues) {
-        return checkWithinList(layout, possibleValues, "Please enter a valid option.", false);
-    }
     public static TextWatcher checkWithinList(TextInputLayout layout, List<String> possibleValues, boolean emptyIsValid) {
         return checkWithinList(layout, possibleValues, "Please enter a valid option.", emptyIsValid);
     }
@@ -125,30 +120,6 @@ public class ErrorHandling {
                     }
                 }
                 layout.setError(errorMessage);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-    }
-    public static boolean myerrorfunctiontest() {
-        return false;
-    }
-
-    public static TextWatcher checkWithFunction(TextInputLayout layout, Supplier<Boolean> errorFunction) {
-        String errorMessage = "Invalid input.";
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(errorFunction.get())
-                    layout.setError(null);
-                else
-                    layout.setError(errorMessage);
             }
 
             @Override

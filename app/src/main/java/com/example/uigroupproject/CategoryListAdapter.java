@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHolder> {
-    private List<CategoryData> categories;
-    private Context context;
+    final private List<CategoryData> categories;
+    final private Context context;
     public CategoryListAdapter(List<CategoryData> _categories, Context _context) {
         categories = _categories;
         context = _context;
     }
 
+    @NonNull
     @Override
     public CategoryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_category_element, parent, false);
@@ -35,17 +35,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHo
         holder.nameView.setText(category.name);
         holder.proportionTypeView.setText(category.getPercent(context));
         holder.proportionValueView.setText(category.getNumber(context));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Toast.makeText(context, holder.nameView.getText(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, category.name, Toast.LENGTH_SHORT).show();
-                editCategory(category.id);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> editCategory(category.id));
     }
-    //        Toast.makeText(context, "Item at position " + position + " is tapped", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "please", Toast.LENGTH_SHORT).show();
     public void editCategory(long categoryId) {
         Intent intent = new Intent(context, CategoryEditActivity.class);
         intent.putExtra("isNew", false);
@@ -57,10 +48,4 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHo
     public int getItemCount() {
         return categories.size();
     }
-
-    public void setFilteredList(List<CategoryData> filteredList) {
-        categories = filteredList;
-        notifyDataSetChanged();
-    }
-
 }

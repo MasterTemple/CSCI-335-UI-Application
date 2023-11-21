@@ -9,11 +9,9 @@ public class CategoryData {
     public String name;
     public String type;
     public double value;
-    private String PERCENT = "Percent";
-    private String EMPTY_VALUE = "___";
-    private String FIXED_VALUE = "Fixed Value";
-    private String NONE = "None";
-    public CategoryData() {}
+    final private String PERCENT = "Percent";
+    final private String EMPTY_VALUE = "___";
+    final private String FIXED_VALUE = "Fixed Value";
     public CategoryData(long _id, String _name, String _type, double _value) {
         id = _id;
         name = _name;

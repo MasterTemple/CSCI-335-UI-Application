@@ -72,7 +72,7 @@ public class CategoryEditActivity extends AppCompatActivity {
         long categoryId  = intent.getLongExtra("categoryId", -1);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        String action = isNew ? "Create" : "Edit";
+        String action = isNew ? "Create" : "Save";
         toolbar.setTitle(String.format("%s a Category", action));
         toolbar.setNavigationOnClickListener(v -> finish());
         MenuItem editButton = toolbar.getMenu().findItem(R.id.top_bar_edit_button);
