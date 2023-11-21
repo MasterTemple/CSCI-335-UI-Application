@@ -16,16 +16,31 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:title="Title"
+            android:background="@color/white"
             app:menu="@menu/recents_top_bar"
             app:navigationIcon="@drawable/ic_back" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_below="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <androidx.appcompat.widget.SearchView
         android:layout_below="@+id/top_bar"
         android:id="@+id/recent_transactions_search"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_below="@+id/recent_transactions_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
         />
 
     <androidx.recyclerview.widget.RecyclerView

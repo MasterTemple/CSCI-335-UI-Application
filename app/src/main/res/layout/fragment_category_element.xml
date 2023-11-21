@@ -45,4 +45,13 @@
         android:textColor="@color/black"
         android:textSize="20sp" />
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_below="@+id/categoryValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="4dp"
+        />
+
 </RelativeLayout>

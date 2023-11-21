@@ -3,9 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="grey">#8C8C8C</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#0048FF</color>
+    <color name="primary">#246EE9</color>
     <color name="secondary">#002DD3</color>
-    <color name="accent">#FF5722</color>
-    <color name="green">#10F100</color>
+    <color name="accent">#00128A</color>
+    <color name="green">#11FF00</color>
     <color name="red">#C10505</color>
 </resources>

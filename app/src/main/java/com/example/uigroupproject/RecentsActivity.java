@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 //import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class RecentsActivity extends AppCompatActivity {
     private TransactionListAdapter adapter;
     private Context context;
     private Database db;
+    private SearchView search;
 
     private void setTransactions() {
 //        transactions.add(new TransactionData("Monkey", 103.22));
@@ -59,7 +61,7 @@ public class RecentsActivity extends AppCompatActivity {
         db = new Database(this);
         transactions = db.getAllTransactions();
         Collections.reverse(transactions);
-        SearchView search = findViewById(R.id.recent_transactions_search);
+        search = findViewById(R.id.recent_transactions_search);
         search.clearFocus();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -71,6 +73,14 @@ public class RecentsActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 filterTransactions(newText);
                 return true;
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(RecentsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                search.requestFocus();
+                search.setIconified(false);
             }
         });
 
@@ -95,6 +105,8 @@ public class RecentsActivity extends AppCompatActivity {
         adapter = new TransactionListAdapter(transactions, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if(search.getQuery().toString().length() > 0)
+            filterTransactions(search.getQuery().toString());
     }
 
     @Override

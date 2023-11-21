@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:maxHeight="48dp"
     android:layout_marginTop="10dp"
-    android:id="@+id/transactionCard"
-    >
+    android:id="@+id/transactionCard">
 
     <RelativeLayout
         android:id="@+id/transactionInfo"
-        android:layout_width="250dp"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
@@ -37,24 +36,44 @@
                 android:text="11/04/2023"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/primary" />
+            <ImageView
+                android:id="@+id/categoryIcon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_toEndOf="@id/transactionDate"
+                android:src="@drawable/ic_category"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="4dp"
+                app:tint="@color/accent"
+                />
             <TextView
                 android:id="@+id/transactionCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/transactionDate"
+                android:layout_toEndOf="@id/categoryIcon"
                 android:text="Some Category"
                 android:textColor="@color/accent" />
         </RelativeLayout>
     </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:id="@+id/transactionAmount"
         android:textSize="30sp"
         android:text="$48.00"
+        android:textAlignment="textEnd"
         android:layout_toEndOf="@id/transactionInfo"
         android:textColor="@color/black"
+        />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_below="@+id/transactionInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="4dp"
         />
 
 </RelativeLayout>
