@@ -29,7 +29,7 @@
     <string name="stats_spending_by_category">Spending By Category</string>
 
     <string name="home_percent_description">of your budget remains</string>
-    <string name="home_budget_money_remaining">Remaining</string>
+    <string name="home_budget_money_remaining">Dollars Left</string>
     <string name="home_daily_budget">Daily Budget</string>
     <string name="home_recent_transactions">Recent Transactions</string>
     <string name="home_view_all_transactions">View All</string>

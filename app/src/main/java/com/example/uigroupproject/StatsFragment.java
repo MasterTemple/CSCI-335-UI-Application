@@ -113,7 +113,7 @@ public class StatsFragment extends Fragment {
             lineEntries.add(new Entry(i, (float)(budget - amountSpent)));
             if(today.getDate() == i) break;
         }
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Actual Amount Remaining");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Actual Dollars Remaining");
         lineDataSet.setColor(Color.rgb(0, 255, 0));
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawCircles(false);
