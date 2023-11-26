@@ -103,14 +103,5 @@
 
         </RelativeLayout>
 
-        <View
-            android:id="@+id/stats_list"
-            android:layout_below="@+id/line_view"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            android:layout_margin="20dp"
-            />
-
     </RelativeLayout>
 </ScrollView>
