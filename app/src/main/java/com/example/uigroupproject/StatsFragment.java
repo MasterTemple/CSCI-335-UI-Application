@@ -86,60 +86,6 @@ public class StatsFragment extends Fragment {
 
         }
 
-        /*
-        PieDataSet pieDataSet = new PieDataSet(entries, "");
-//        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        PieChart pieChart = view.findViewById(R.id.spending_by_category_pie_chart);
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.setUsePercentValues(true);
-        pieData.setValueTextSize(12);
-//        pieData.setValueTextColor(Color.rgb(255, 255, 255)); // white
-        pieData.setValueTextColor(0); // invisible
-        pieDataSet.setLabel("");
-        pieChart.getDescription().setEnabled(false);
-        pieChart.animateY(1000);
-        */
-
-        LineChart lineChart = view.findViewById(R.id.spending_line_graph);
-        int daysThisMonth = 31;
-
-        List<Entry> lineEntries = new ArrayList<>();
-        double amountSpent = 0;
-        Date today = new Date();
-        for(int i=0;i<=daysThisMonth;i++) {
-            for(TransactionData transaction: transactions) {
-                if(transaction.date.getDate() == i) {
-                    amountSpent += transaction.amount;
-                }
-            }
-            lineEntries.add(new Entry(i, (float)(budget - amountSpent)));
-            if(today.getDate() == i) break;
-        }
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Actual Dollars Remaining");
-        lineDataSet.setColor(Color.rgb(0, 255, 0));
-        lineDataSet.setDrawValues(false);
-        lineDataSet.setDrawCircles(false);
-        lineDataSet.setLineWidth(2);
-
-        List<Entry> lineEntries2 = new ArrayList<>();
-        double dailyBudget = budget/daysThisMonth;
-        for(int i=0;i<=daysThisMonth;i++) {
-            lineEntries2.add(new Entry(i, (float)(budget - (i*dailyBudget))));
-        }
-        LineDataSet lineDataSet2 = new LineDataSet(lineEntries2, "Expected Amount Remaining");
-        lineDataSet2.setColor(Color.rgb(0, 0, 255));
-        lineDataSet2.setDrawValues(false);
-        lineDataSet2.setDrawCircles(false);
-        lineDataSet2.setLineWidth(2);
-
-        lineChart.setData(new LineData(lineDataSet, lineDataSet2));
-
-        lineChart.getDescription().setEnabled(false);
-        int ms = 700;
-        lineChart.animateXY(ms, ms);
 
         List<CategoryData> categoriesActual = new ArrayList<>();
         for(CategoryData c: categories) {
@@ -182,6 +128,31 @@ public class StatsFragment extends Fragment {
 
             }
         });
+        TabLayout amountRemainingTabLayout = view.findViewById(R.id.spending_line_graph_tab_layout);
+        setAmountRemainingFragment(new AmountRemainingLineChartFragment(context, transactions));
+        amountRemainingTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String selectedName = Objects.requireNonNull(tab.getText()).toString();
+//                Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
+                if(selectedName.equals("Line Graph")) {
+                    setAmountRemainingFragment(new AmountRemainingLineChartFragment(context, transactions));
+                }
+                else {
+                    setAmountRemainingFragment(new SpendingByCategoryTableFragment(context, categoriesActual));
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return view;
     }
@@ -192,4 +163,12 @@ public class StatsFragment extends Fragment {
         fragmentTransaction.replace(R.id.pie_view, fragment);
         fragmentTransaction.commit();
     }
+
+    private void setAmountRemainingFragment(Fragment fragment){
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.line_view, fragment);
+        fragmentTransaction.commit();
+    }
+
 }
