@@ -27,8 +27,9 @@ public class SpendingByCategoryTableFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_spending_by_category_table, container, false);
         SpendingByCategoryTableAdapter adapter = new SpendingByCategoryTableAdapter(categories, context);
-        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
+        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_table);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         return view;

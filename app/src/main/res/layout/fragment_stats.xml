@@ -30,31 +30,38 @@
                 android:layout_height="40dp"/>
         </com.google.android.material.tabs.TabLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="350dp"
             android:id="@+id/pie_view"
             android:layout_below="@+id/spending_by_category_pie_chart_tab_layout"
-            >
+            />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/spending_by_category_pie_chart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="350dp"-->
+<!--            android:id="@+id/pie_view"-->
+<!--            android:layout_below="@+id/spending_by_category_pie_chart_tab_layout"-->
+<!--            >-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/spending_by_category_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
-        </RelativeLayout>
+<!--            <com.github.mikephil.charting.charts.PieChart-->
+<!--                android:id="@+id/spending_by_category_pie_chart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/spending_by_category_list"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_marginBottom="20dp" />-->
+<!--        </RelativeLayout>-->
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_below="@+id/pie_view"

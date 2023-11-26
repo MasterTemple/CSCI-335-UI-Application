@@ -1,5 +1,8 @@
 package com.example.uigroupproject;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import java.util.Objects;
 public class StatsFragment extends Fragment {
     private Context context;
     private View view;
+    Map<Integer, Fragment> fragments = new HashMap<>();
     List<TransactionData> transactions;
     List<CategoryData> categories;
     public StatsFragment() {}
@@ -82,6 +86,7 @@ public class StatsFragment extends Fragment {
 
         }
 
+        /*
         PieDataSet pieDataSet = new PieDataSet(entries, "");
 //        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -96,6 +101,7 @@ public class StatsFragment extends Fragment {
         pieDataSet.setLabel("");
         pieChart.getDescription().setEnabled(false);
         pieChart.animateY(1000);
+        */
 
         LineChart lineChart = view.findViewById(R.id.spending_line_graph);
         int daysThisMonth = 31;
@@ -145,26 +151,24 @@ public class StatsFragment extends Fragment {
 //        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get(-1));
         categoriesActual.add(noCategory);
         categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
-        CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
-        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//        CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
+//        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         TabLayout byCategoryTabLayout = view.findViewById(R.id.spending_by_category_pie_chart_tab_layout);
-        view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.spending_by_category_list).setVisibility(View.INVISIBLE);
+        setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(context, entries));
+
         byCategoryTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String selectedName = Objects.requireNonNull(tab.getText()).toString();
-                Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
                 if(selectedName.equals("Pie Chart")) {
-                    view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.spending_by_category_list).setVisibility(View.INVISIBLE);
+                    setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(context, entries));
                 }
                 else {
-                    view.findViewById(R.id.spending_by_category_pie_chart).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.spending_by_category_list).setVisibility(View.VISIBLE);
+                    setSpendingByCategoryFragment(new SpendingByCategoryTableFragment(context, categoriesActual));
                 }
             }
 
@@ -180,5 +184,12 @@ public class StatsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setSpendingByCategoryFragment(Fragment fragment){
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.pie_view, fragment);
+        fragmentTransaction.commit();
     }
 }

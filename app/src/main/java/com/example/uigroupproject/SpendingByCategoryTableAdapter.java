@@ -22,7 +22,7 @@ public class SpendingByCategoryTableAdapter extends RecyclerView.Adapter<Spendin
     @NonNull
     @Override
     public SpendingByCategoryTableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_spending_by_category_table, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_category_element, parent, false);
         return new SpendingByCategoryTableViewHolder(view);
     }
 
