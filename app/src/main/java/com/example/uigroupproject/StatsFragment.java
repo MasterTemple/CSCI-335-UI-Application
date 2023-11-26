@@ -48,7 +48,6 @@ public class StatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_stats, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
         Database db = new Database(context);
         transactions = db.getAllTransactionsInPastMonth();
         categories = db.getAllCategories();
@@ -147,6 +146,7 @@ public class StatsFragment extends Fragment {
         categoriesActual.add(noCategory);
         categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
         CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
+        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
