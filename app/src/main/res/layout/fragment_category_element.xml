@@ -51,7 +51,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="4dp"
-        app:dividerColor="@color/secondary"
+        app:dividerColor="@color/grey"
         />
 
 </RelativeLayout>

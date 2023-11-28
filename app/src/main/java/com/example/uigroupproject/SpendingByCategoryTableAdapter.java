@@ -30,8 +30,15 @@ public class SpendingByCategoryTableAdapter extends RecyclerView.Adapter<Spendin
     public void onBindViewHolder(@NonNull SpendingByCategoryTableViewHolder holder, int position) {
         CategoryData category = categories.get(position);
         holder.nameView.setText(category.name);
-        holder.percentView.setText(category.getPercent(context));
+        holder.percentView.setText(category.getPercentFromTotalSpent(getTotalSpent()));
         holder.amountView.setText(category.getNumber(context));
+    }
+    private double getTotalSpent() {
+        int sum = 0;
+        for (CategoryData category: categories) {
+            sum += category.value;
+        }
+        return sum;
     }
 
     @Override

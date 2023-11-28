@@ -33,6 +33,15 @@ public class CategoryData {
         }
         return EMPTY_VALUE;
     }
+    public String getPercentFromTotalSpent(double totalSpent) {
+        double budget = totalSpent;
+        if(type.contentEquals(PERCENT)) {
+            return String.format("%.0f%%", value);
+        } else if(type.contentEquals(FIXED_VALUE)) {
+            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
+        }
+        return EMPTY_VALUE;
+    }
 
     public String getNumber(Context context) {
         Settings settings = new Settings(context);

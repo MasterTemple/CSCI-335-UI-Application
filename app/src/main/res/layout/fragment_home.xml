@@ -36,7 +36,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:progressBackgroundTint="@color/green"
         android:progressBackgroundTintMode="@color/green"
         android:progressTint="@color/green"
@@ -70,13 +70,13 @@
             android:textStyle="bold"
             android:layout_marginEnd="20dp"
             />
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_below="@+id/home_remaining_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="4dp"
-            />
+        <!--        <com.google.android.material.divider.MaterialDivider-->
+        <!--            android:layout_below="@+id/home_remaining_value"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginRight="4dp"-->
+        <!--            android:layout_marginLeft="4dp"-->
+        <!--            />-->
     </RelativeLayout>
 
     <RelativeLayout
@@ -106,13 +106,13 @@
             android:textStyle="bold"
             android:layout_marginEnd="20dp"
             />
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_below="@+id/home_daily_budget_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="4dp"
-            />
+        <!--        <com.google.android.material.divider.MaterialDivider-->
+        <!--            android:layout_below="@+id/home_daily_budget_value"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginRight="4dp"-->
+        <!--            android:layout_marginLeft="4dp"-->
+        <!--            />-->
     </RelativeLayout>
 
     <TextView
@@ -126,15 +126,15 @@
         android:text="@string/home_recent_transactions"
         />
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_below="@+id/recent_transactions_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        app:dividerColor="@color/secondary"
-        />
+    <!--    <com.google.android.material.divider.MaterialDivider-->
+    <!--        android:layout_below="@+id/recent_transactions_button"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginRight="12dp"-->
+    <!--        android:layout_marginLeft="12dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        app:dividerColor="@color/secondary"-->
+    <!--        />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transactions_preview"

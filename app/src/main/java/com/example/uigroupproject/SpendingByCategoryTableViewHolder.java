@@ -14,7 +14,7 @@ public class SpendingByCategoryTableViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         // ACTUALLY SET THESE
         nameView = itemView.findViewById(R.id.categoryName);
-        percentView = itemView.findViewById(R.id.categoryValue);
-        amountView = itemView.findViewById(R.id.categoryPercent);
+        percentView = itemView.findViewById(R.id.categoryPercent);
+        amountView = itemView.findViewById(R.id.categoryValue);
     }
 }
