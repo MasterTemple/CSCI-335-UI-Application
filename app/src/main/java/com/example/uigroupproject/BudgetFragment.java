@@ -62,14 +62,22 @@ public class BudgetFragment extends Fragment {
                     .setTitle("Enter Budget")
                     .setView(dialogView)
                     .setPositiveButton("Set", (dialog, which) -> {
-                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
-                        TextView budgetDisplay1 = view.findViewById(R.id.monthly_budget_value);
-                        EditText newBudget = dialogView.findViewById(R.id.dialog_edit_budget_text);
-                        Settings settings = new Settings(context);
-//                                settings.budget = Double.parseDouble(newBudget.getText().toString());
-                        settings.setBudget(Double.parseDouble(newBudget.getText().toString()));
-                        budgetDisplay1.setText(String.format("$%.2f", settings.budget));
-                        updateCategoryList();
+//                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+//                        TextView budgetDisplay1 = view.findViewById(R.id.monthly_budget_value);
+                        EditText newBudgetDisplay = dialogView.findViewById(R.id.dialog_edit_budget_text);
+                        double newBudget = Double.parseDouble(newBudgetDisplay.getText().toString());
+                        // invalid budget
+                        if(newBudget < totalAmount) {
+                            AlertDialog confirmAlert = new MaterialAlertDialogBuilder(context, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
+                                    .setTitle("Budget Lower Than Current Categories")
+                                    .setMessage(String.format("Your categories sum up to $%.2f but your new budget is only $%.2f", totalAmount, newBudget))
+                                    .setPositiveButton("Continue", (confirmDialog, cwhich) -> {
+                                        updateBudget(newBudget);
+                                    }).setNegativeButton("Cancel", (confirmDialog, cwhich) -> confirmDialog.dismiss()).setCancelable(true).create();
+                            confirmAlert.show();
+                        } else {
+                            updateBudget(newBudget);
+                        }
                     }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).create();
             alert.show();
         });
@@ -107,5 +115,14 @@ public class BudgetFragment extends Fragment {
         categories = db.getAllCategories();
         updateCategoryTotals();
         updateCategoryList();
+    }
+
+    private void updateBudget(double newBudget) {
+        TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
+        Settings settings = new Settings(context);
+        settings.setBudget(newBudget);
+        budgetDisplay.setText(String.format("$%.2f", settings.budget));
+        updateCategoryList();
+        updateCategoryTotals();
     }
 }
