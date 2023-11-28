@@ -29,6 +29,10 @@ public class CategoryEditActivity extends AppCompatActivity {
     TextInputLayout inputCategoryTypeLayout;
     TextInputLayout inputCategoryValueLayout;
     CategoryData category;
+    private double totalPercent;
+    private double totalAmount;
+    private double newTotalPercent;
+    private double newTotalAmount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,8 @@ public class CategoryEditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean isNew = intent.getBooleanExtra("isNew", true);
         long categoryId  = intent.getLongExtra("categoryId", -1);
+        totalPercent = intent.getDoubleExtra("totalPercent", 0);
+        totalAmount = intent.getDoubleExtra("totalAmount", 0);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         String action = isNew ? "Create" : "Save";
@@ -98,13 +104,41 @@ public class CategoryEditActivity extends AppCompatActivity {
                     inputCategoryType.getText().toString(),
                     Double.parseDouble(inputValue)
             );
-            if(isNew) {
-                db.createCategory(category);
-            }
+
+            CategoryData tempCategory = new CategoryData("___temp", inputCategoryType.getText().toString(), Double.parseDouble(inputCategoryValue.getText().toString()));
+            double thisPercent = tempCategory.getPercentDouble(this);
+            double thisAmount = tempCategory.getNumberDouble(this);
+            newTotalPercent = totalPercent + thisPercent;
+            newTotalAmount = totalAmount + thisAmount;
+            boolean percentOver100 = newTotalPercent > 100;
+            boolean newBudgetOverTotalBudget = newTotalAmount > new Settings(this).budget;
+            boolean isOverBudget = percentOver100 || newBudgetOverTotalBudget;
+
+            AlertDialog alert = new MaterialAlertDialogBuilder(CategoryEditActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
+                    .setTitle("Over Budget")
+                    .setMessage(String.format("This will set your budget to $%.2f which is %.0f%% of $%.2f. Do you want to continue?",
+                    newTotalAmount, newTotalPercent, new Settings(CategoryEditActivity.this).budget))
+                    .setPositiveButton("Continue", (dialog, which) -> {
+                        if(isNew) {
+                            db.createCategory(category);
+                        }
+                        else {
+                            db.updateCategory(category, categoryId);
+                        }
+                        finish();
+                    }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).setCancelable(true).create();
+
+            if(isOverBudget)
+                alert.show();
             else {
-                db.updateCategory(category, categoryId);
+                if(isNew) {
+                    db.createCategory(category);
+                }
+                else {
+                    db.updateCategory(category, categoryId);
+                }
+                finish();
             }
-            finish();
             return true;
         });
         Button deleteButton = findViewById(R.id.category_edit_delete_button);
@@ -118,15 +152,22 @@ public class CategoryEditActivity extends AppCompatActivity {
                     }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).setCancelable(true).create();
             alert.show();
         });
+
         if(isNew) {
             // hide delete buttons
             deleteButton.setVisibility(View.INVISIBLE);
         } else {
             // fill fields with previous values
             category = db.getCategoryFromId(categoryId);
+//            totalPercent += Double.parseDouble(category.getPercent(this).replace("%", ""));
+//            totalAmount += Double.parseDouble(category.getNumber(this).replace("$", ""));
+            totalPercent -= category.getPercentDouble(this);
+            totalAmount -= category.getNumberDouble(this);
             inputCategoryName.setText(category.name);
             inputCategoryType.setText(category.type, false);
             inputCategoryValue.setText(String.format("%.2f", category.value));
+            if(category.type.equals("Fixed Value")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
+            if(category.type.equals("Percent")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
         }
         // listen for input to validate
         inputCategoryName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputCategoryNameLayout));

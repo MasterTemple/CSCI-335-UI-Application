@@ -10,7 +10,7 @@ public class CategoryData {
     public String type;
     public double value;
     final private String PERCENT = "Percent";
-    final private String EMPTY_VALUE = "___";
+    final private String EMPTY_VALUE = "0";
     final private String FIXED_VALUE = "Fixed Value";
     public CategoryData(long _id, String _name, String _type, double _value) {
         id = _id;
@@ -26,33 +26,44 @@ public class CategoryData {
     public String getPercent(Context context) {
         Settings settings = new Settings(context);
         double budget = settings.budget;
-        if(type.contentEquals(PERCENT)) {
-            return String.format("%.0f%%", value);
-        } else if(type.contentEquals(FIXED_VALUE)) {
-            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
-        }
-        return EMPTY_VALUE;
+        return getPercentFromTotalSpent(budget);
     }
     public String getPercentFromTotalSpent(double totalSpent) {
         double budget = totalSpent;
+        double val = value;
         if(type.contentEquals(PERCENT)) {
-            return String.format("%.0f%%", value);
+//            return String.format("%.0f%%", value);
         } else if(type.contentEquals(FIXED_VALUE)) {
-            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
+//            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
+            val = budget == 0 ? 0: (100 / (budget / value));
+        } else {
+            val = 0;
         }
-        return EMPTY_VALUE;
+        return String.format("%.0f%%", val);
+//        return EMPTY_VALUE;
     }
 
     public String getNumber(Context context) {
         Settings settings = new Settings(context);
         double budget = settings.budget;
+        double val = value;
         if(type.contentEquals(FIXED_VALUE)) {
-            return String.format("$%.2f", value);
+//            return String.format("$%.2f", value);
         } else if (type.contentEquals(PERCENT)) {
             double percent = value / 100;
-            return String.format("$%.2f", budget * percent);
+            val = budget * percent;
+//            return String.format("$%.2f", budget * percent);
+        } else {
+            val = 0;
         }
-        return EMPTY_VALUE;
+        return String.format("$%.2f", val);
+    }
+
+    public double getNumberDouble(Context context) {
+        return Double.parseDouble(getNumber(context).replace("$", ""));
+    }
+    public double getPercentDouble(Context context) {
+        return Double.parseDouble(getPercent(context).replace("%", ""));
     }
 
 }

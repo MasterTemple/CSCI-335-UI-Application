@@ -29,6 +29,8 @@ public class BudgetFragment extends Fragment {
     private Context context;
     private Database db;
     private View view;
+    private double totalPercent;
+    private double totalAmount;
     public BudgetFragment() {}
     public BudgetFragment(Context _context) {
         context = _context;
@@ -43,11 +45,10 @@ public class BudgetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_budget, container, false);
-
-        adapter = new CategoryListAdapter(categories, context);
         recyclerView = view.findViewById(R.id.category_list);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        updateCategoryTotals();
+        updateCategoryList();
 
         TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
         budgetDisplay.setText(String.format("$%.2f", new Settings(context).budget));
@@ -77,17 +78,19 @@ public class BudgetFragment extends Fragment {
     private void addCategory() {
         Intent intent = new Intent(context, CategoryEditActivity.class);
         intent.putExtra("isNew", true);
+        intent.putExtra("totalPercent", totalPercent);
+        intent.putExtra("totalAmount", totalAmount);
         startActivity(intent);
     }
 
     private void updateCategoryList() {
-        adapter = new CategoryListAdapter(categories, context);
+        adapter = new CategoryListAdapter(categories, context, totalPercent, totalAmount);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
     private void updateCategoryTotals() {
-        double totalPercent = 0;
-        double totalAmount = 0;
+        totalPercent = 0;
+        totalAmount = 0;
         for (CategoryData category : categories) {
             totalPercent += Double.parseDouble(category.getPercent(context).replace("%", ""));
             totalAmount += Double.parseDouble(category.getNumber(context).replace("$", ""));
@@ -102,7 +105,7 @@ public class BudgetFragment extends Fragment {
     public void onResume() {
         super.onResume();
         categories = db.getAllCategories();
-        updateCategoryList();
         updateCategoryTotals();
+        updateCategoryList();
     }
 }

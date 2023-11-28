@@ -17,9 +17,13 @@ import java.util.List;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHolder> {
     final private List<CategoryData> categories;
     final private Context context;
-    public CategoryListAdapter(List<CategoryData> _categories, Context _context) {
+    final private double totalPercent;
+    final private double totalAmount;
+    public CategoryListAdapter(List<CategoryData> _categories, Context _context, double _totalPercent, double _totalAmount) {
         categories = _categories;
         context = _context;
+        totalPercent = _totalPercent;
+        totalAmount = _totalAmount;
     }
 
     @NonNull
@@ -41,6 +45,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListViewHo
         Intent intent = new Intent(context, CategoryEditActivity.class);
         intent.putExtra("isNew", false);
         intent.putExtra("categoryId", categoryId);
+        intent.putExtra("totalPercent", totalPercent);
+        intent.putExtra("totalAmount", totalAmount);
         startActivity(context, intent, new Bundle());
     }
 
