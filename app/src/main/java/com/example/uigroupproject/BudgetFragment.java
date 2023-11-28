@@ -28,6 +28,7 @@ public class BudgetFragment extends Fragment {
     private CategoryListAdapter adapter;
     private Context context;
     private Database db;
+    private View view;
     public BudgetFragment() {}
     public BudgetFragment(Context _context) {
         context = _context;
@@ -41,7 +42,7 @@ public class BudgetFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_budget, container, false);
+        view = inflater.inflate(R.layout.fragment_budget, container, false);
 
         adapter = new CategoryListAdapter(categories, context);
         recyclerView = view.findViewById(R.id.category_list);
@@ -80,15 +81,28 @@ public class BudgetFragment extends Fragment {
     }
 
     private void updateCategoryList() {
-        categories = db.getAllCategories();
         adapter = new CategoryListAdapter(categories, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+    }
+    private void updateCategoryTotals() {
+        double totalPercent = 0;
+        double totalAmount = 0;
+        for (CategoryData category : categories) {
+            totalPercent += Double.parseDouble(category.getPercent(context).replace("%", ""));
+            totalAmount += Double.parseDouble(category.getNumber(context).replace("$", ""));
+        }
+        TextView totalPercentView = view.findViewById(R.id.categoryPercentTotal);
+        TextView totalAmountView = view.findViewById(R.id.categoryValueTotal);
+        totalPercentView.setText(String.format("%.0f%%", totalPercent));
+        totalAmountView.setText(String.format("$%.2f", totalAmount));
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        categories = db.getAllCategories();
         updateCategoryList();
+        updateCategoryTotals();
     }
 }

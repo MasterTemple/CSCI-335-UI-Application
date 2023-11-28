@@ -86,6 +86,7 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_list"
         android:layout_width="match_parent"
-        android:layout_height="400sp"
+        android:layout_height="320sp"
         android:layout_below="@id/table_heading"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -104,9 +105,67 @@
         android:layout_marginBottom="10dp"
     />
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_list"
+        android:layout_marginHorizontal="10dp"
+        />
+
+    <RelativeLayout
+        android:id="@+id/total_element"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/category_list"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="10dp"
+        >
+
+        <TextView
+            android:id="@+id/categoryNameTotal"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Categories Total"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/categoryPercentTotal"
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:text="10%"
+            android:layout_toEndOf="@id/categoryNameTotal"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/categoryValueTotal"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/categoryPercentTotal"
+            android:gravity="end"
+            android:text="$481.00"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/add_category_button"
-        android:layout_below="@+id/category_list"
+        android:layout_below="@+id/total_element"
         android:layout_width="200dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
