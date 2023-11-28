@@ -57,7 +57,7 @@ public class BudgetFragment extends Fragment {
         Button editBudgetButton = view.findViewById(R.id.edit_budget_button);
         editBudgetButton.setOnClickListener(v -> {
             View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_budget, null);
-            AlertDialog alert = new MaterialAlertDialogBuilder(context)
+            AlertDialog alert = new MaterialAlertDialogBuilder(context, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
                     .setTitle("Enter Budget")
                     .setView(dialogView)
                     .setPositiveButton("Set", (dialog, which) -> {
