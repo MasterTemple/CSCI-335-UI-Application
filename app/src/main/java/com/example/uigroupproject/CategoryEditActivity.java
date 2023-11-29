@@ -168,8 +168,8 @@ public class CategoryEditActivity extends AppCompatActivity {
             inputCategoryValue.setText(String.format("%.2f", category.value));
             if(category.type.equals("Fixed Value")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
             if(category.type.equals("Percent")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
-            if(item.equals("None")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
-            if(item.equals("None")) {
+            if(category.type.equals("None")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
+            if(category.type.equals("None")) {
                 inputCategoryValue.setEnabled(false);
                 inputCategoryValue.setText("0");
                 inputCategoryValueLayout.setError(null);

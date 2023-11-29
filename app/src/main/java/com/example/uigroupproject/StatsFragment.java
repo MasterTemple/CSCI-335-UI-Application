@@ -1,34 +1,20 @@
 package com.example.uigroupproject;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +47,10 @@ public class StatsFragment extends Fragment {
         double budget = settings.budget;
         Map<Long, Double> spendingByCategory = new HashMap<>();
         Map<Long, CategoryData> categoriesById = new HashMap<>();
+        Map<Integer, Double> spendingOnDay = new HashMap<>();
+        for(int i=1;i<31;i++) {
+            spendingOnDay.put(i, 0.0);
+        }
         // initialize map
         for(CategoryData category: categories) {
             spendingByCategory.put(category.id, 0.0);
@@ -69,6 +59,8 @@ public class StatsFragment extends Fragment {
         spendingByCategory.put((long)-1, 0.0);
         for(TransactionData transaction: transactions) {
             spendingByCategory.put(transaction.categoryId, spendingByCategory.get(transaction.categoryId) + transaction.amount);
+            int day = transaction.date.getDate();
+            spendingOnDay.put(day, spendingOnDay.get(day) + transaction.amount);
         }
         for(Map.Entry<Long, Double> entry: spendingByCategory.entrySet()) {
             Long categoryId = entry.getKey();
@@ -139,7 +131,7 @@ public class StatsFragment extends Fragment {
                     setAmountRemainingFragment(new AmountRemainingLineChartFragment(context, transactions));
                 }
                 else {
-                    setAmountRemainingFragment(new SpendingByCategoryTableFragment(context, categoriesActual));
+                    setAmountRemainingFragment(new AmountRemainingTableFragment(context, spendingOnDay));
                 }
             }
 
