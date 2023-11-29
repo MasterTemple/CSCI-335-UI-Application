@@ -10,7 +10,10 @@ import android.provider.ContactsContract;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -214,6 +217,8 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        Comparator<TransactionData> transactionSorter = (t1, t2) -> t1.date.compareTo(t2.date);
+        Collections.sort(transactions, transactionSorter);
         return transactions;
     }
 

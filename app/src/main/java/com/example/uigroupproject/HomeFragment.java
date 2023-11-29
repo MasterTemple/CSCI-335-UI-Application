@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
         Database db = new Database(context);
         Settings settings = new Settings(context);
         double budget = settings.budget;
-        List<TransactionData> transactions = db.getAllTransactions();
+        List<TransactionData> transactions = db.getAllTransactionsInPastMonth();
         double spentThisMonth = 0.0;
         for(TransactionData t: transactions) {
             spentThisMonth += t.amount;
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTransactionList() {
-        List<TransactionData> transactions = db.getAllTransactions();
+        List<TransactionData> transactions = db.getAllTransactionsInPastMonth();
         Collections.reverse(transactions);
 //        int index = transactions.size() > 3 ? 3 : transactions.size();
 //        transactions = transactions.subList(0, index);
