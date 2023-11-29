@@ -73,7 +73,7 @@ public class AmountRemainingLineChartFragment extends Fragment {
         lineDataSet2.setDrawCircles(false);
         lineDataSet2.setLineWidth(2);
 
-        lineChart.setData(new LineData(lineDataSet, lineDataSet2));
+        lineChart.setData(new LineData(lineDataSet2, lineDataSet));
 
         lineChart.getDescription().setEnabled(false);
         int ms = 700;
