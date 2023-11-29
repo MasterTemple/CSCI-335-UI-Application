@@ -75,8 +75,9 @@ public class StatsFragment extends Fragment {
                 CategoryData category = categoriesById.get(categoryId);
                 entries.add(new PieEntry(Float.parseFloat(amount.toString()), category.name));
             }
-
         }
+        if(entries.size() == 0)
+            entries.add(new PieEntry((float)1.0, "Nothing"));
 
 
         List<CategoryData> categoriesActual = new ArrayList<>();
