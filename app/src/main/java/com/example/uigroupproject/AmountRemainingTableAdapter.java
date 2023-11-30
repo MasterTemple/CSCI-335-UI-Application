@@ -1,6 +1,5 @@
 package com.example.uigroupproject;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,8 @@ import java.util.List;
 public class AmountRemainingTableAdapter extends RecyclerView.Adapter<AmountRemainingTableViewHolder> {
 
     final private List<PurchaseDateData> days;
-    final private Context context;
-    public AmountRemainingTableAdapter(List<PurchaseDateData> _days, Context _context) {
+    public AmountRemainingTableAdapter(List<PurchaseDateData> _days) {
         days = _days;
-        context = _context;
     }
 
     @NonNull

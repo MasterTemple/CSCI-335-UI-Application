@@ -22,8 +22,6 @@ import java.util.Objects;
 
 public class StatsFragment extends Fragment {
     private Context context;
-    private View view;
-    Map<Integer, Fragment> fragments = new HashMap<>();
     List<TransactionData> transactions;
     List<CategoryData> categories;
     public StatsFragment() {}
@@ -36,15 +34,14 @@ public class StatsFragment extends Fragment {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_stats, container, false);
+        View view = inflater.inflate(R.layout.fragment_stats, container, false);
         Database db = new Database(context);
         transactions = db.getAllTransactionsInPastMonth();
         categories = db.getAllCategories();
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        Settings settings = new Settings(context);
-        double budget = settings.budget;
         Map<Long, Double> spendingByCategory = new HashMap<>();
         Map<Long, CategoryData> categoriesById = new HashMap<>();
         Map<Integer, Double> spendingOnDay = new HashMap<>();
@@ -58,8 +55,12 @@ public class StatsFragment extends Fragment {
         }
         spendingByCategory.put((long)-1, 0.0);
         for(TransactionData transaction: transactions) {
+//            if (spendingByCategory.containsKey(transaction.categoryId))
+//                try {
             spendingByCategory.put(transaction.categoryId, spendingByCategory.get(transaction.categoryId) + transaction.amount);
+//                } catch (NullPointerException ignore){}
             int day = transaction.date.getDate();
+//            if (spendingOnDay.containsKey(day))
             spendingOnDay.put(day, spendingOnDay.get(day) + transaction.amount);
         }
         for(Map.Entry<Long, Double> entry: spendingByCategory.entrySet()) {
@@ -83,11 +84,11 @@ public class StatsFragment extends Fragment {
         List<CategoryData> categoriesActual = new ArrayList<>();
         for(CategoryData c: categories) {
             // hack so i dont have to redo it
-            categoriesActual.add(new CategoryData(c.id, c.name, "Fixed Value", spendingByCategory.get(c.id)));
+            categoriesActual.add(new CategoryData(c.id, c.name, context.getString(R.string.category_type_fixed_value), spendingByCategory.get(c.id)));
         }
 //        double noCategoryMoney = spendingByCategory.get((long)-1);
-        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get((long)-1));
-//        CategoryData noCategory = new CategoryData(-1, "No Category", "Fixed Value", spendingByCategory.get(-1));
+        CategoryData noCategory = new CategoryData(-1, "No Category", context.getString(R.string.category_type_fixed_value), spendingByCategory.get((long)-1));
+//        CategoryData noCategory = new CategoryData(-1, "No Category", context.getString(R.string.category_type_fixed_value), spendingByCategory.get(-1));
         categoriesActual.add(noCategory);
         categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
 //        CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
@@ -96,15 +97,14 @@ public class StatsFragment extends Fragment {
 //        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         TabLayout byCategoryTabLayout = view.findViewById(R.id.spending_by_category_pie_chart_tab_layout);
-        setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(context, entries));
+        setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(entries));
 
         byCategoryTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String selectedName = Objects.requireNonNull(tab.getText()).toString();
-//                Toast.makeText(context, selectedName, Toast.LENGTH_SHORT).show();
                 if(selectedName.equals("Pie Chart")) {
-                    setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(context, entries));
+                    setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(entries));
                 }
                 else {
                     setSpendingByCategoryFragment(new SpendingByCategoryTableFragment(context, categoriesActual));

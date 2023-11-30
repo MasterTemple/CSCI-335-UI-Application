@@ -5,9 +5,7 @@ import android.text.TextWatcher;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +75,6 @@ public class ErrorHandling {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
                 try {
                     Pattern pattern = Pattern.compile("\\d{1,2}/\\d{1,2}/\\d{4}");
                     Matcher matcher = pattern.matcher(s);

@@ -10,23 +10,17 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class AmountRemainingLineChartFragment extends Fragment {
-    private Context context;
-    private View view;
-    List<TransactionData> transactions = new ArrayList<>();
+    private final Context context;
+    List<TransactionData> transactions;
     public AmountRemainingLineChartFragment(Context _context, List<TransactionData> _transactions) {
         context = _context;
         transactions = _transactions;
@@ -37,8 +31,9 @@ public class AmountRemainingLineChartFragment extends Fragment {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_amount_remaining_line_chart, container, false);
+        View view = inflater.inflate(R.layout.fragment_amount_remaining_line_chart, container, false);
         Settings settings = new Settings(context);
         double budget = settings.budget;
         LineChart lineChart = view.findViewById(R.id.spending_line_graph);
@@ -56,7 +51,7 @@ public class AmountRemainingLineChartFragment extends Fragment {
             lineEntries.add(new Entry(i, (float)(budget - amountSpent)));
             if(today.getDate() == i) break;
         }
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Actual Dollars Remaining");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, context.getString(R.string.line_graph_actual_remaining));
         lineDataSet.setColor(Color.rgb(0, 255, 0));
         lineDataSet.setDrawValues(false);
         lineDataSet.setDrawCircles(false);
@@ -67,7 +62,7 @@ public class AmountRemainingLineChartFragment extends Fragment {
         for(int i=0;i<=daysThisMonth;i++) {
             lineEntries2.add(new Entry(i, (float)(budget - (i*dailyBudget))));
         }
-        LineDataSet lineDataSet2 = new LineDataSet(lineEntries2, "Expected Amount Remaining");
+        LineDataSet lineDataSet2 = new LineDataSet(lineEntries2, context.getString(R.string.line_graph_expected_remaining));
         lineDataSet2.setColor(Color.rgb(0, 0, 255));
         lineDataSet2.setDrawValues(false);
         lineDataSet2.setDrawCircles(false);

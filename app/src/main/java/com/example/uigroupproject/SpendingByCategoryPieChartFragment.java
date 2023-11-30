@@ -1,13 +1,11 @@
 package com.example.uigroupproject;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -16,14 +14,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SpendingByCategoryPieChartFragment extends Fragment {
-    private Context context;
-    private View view;
-    ArrayList<PieEntry> entries = new ArrayList<>();
-    public SpendingByCategoryPieChartFragment(Context _context, ArrayList<PieEntry> _entries) {
-        context = _context;
+    ArrayList<PieEntry> entries;
+    public SpendingByCategoryPieChartFragment(ArrayList<PieEntry> _entries) {
         entries = _entries;
     }
     @Override
@@ -33,7 +27,7 @@ public class SpendingByCategoryPieChartFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_spending_by_category_pie_chart, container, false);
+        View view = inflater.inflate(R.layout.fragment_spending_by_category_pie_chart, container, false);
         PieDataSet pieDataSet = new PieDataSet(entries, "");
 //        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -45,7 +39,6 @@ public class SpendingByCategoryPieChartFragment extends Fragment {
         pieData.setValueTextSize(12);
 //        pieData.setValueTextColor(Color.rgb(255, 255, 255)); // white
         pieData.setValueTextColor(0); // invisible
-        pieDataSet.setLabel("");
         pieChart.getDescription().setEnabled(false);
         pieChart.animateY(1000);
 

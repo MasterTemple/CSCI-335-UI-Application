@@ -47,4 +47,11 @@
     <string name="category_name">Name</string>
     <string name="category_proportion">Proportion</string>
     <string name="category_proportion_value">Value</string>
+
+    <string name="line_graph_actual_remaining">Actual Dollars Remaining</string>
+    <string name="line_graph_expected_remaining">"Expected Amount Remaining"</string>
+    <string name="category_type_percent">Percent</string>
+    <string name="category_type_fixed_value">Fixed Value</string>
+    <string name="category_type_none">None</string>
+
 </resources>

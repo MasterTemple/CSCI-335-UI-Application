@@ -1,5 +1,7 @@
 package com.example.uigroupproject;
 
+import java.util.Locale;
+
 public class PurchaseDateData {
     public String date;
     public double spent;
@@ -10,9 +12,9 @@ public class PurchaseDateData {
         remaining = _remaining;
     }
     String getSpent() {
-        return String.format("$%.2f", spent);
+        return String.format(Locale.US, "$%.2f", spent);
     }
     String getRemaining() {
-        return String.format("$%.2f", remaining);
+        return String.format(Locale.US, "$%.2f", remaining);
     }
 }

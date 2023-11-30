@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // if there is no given budget, do a popup at loading to get budget
-//        Settings settings = new Settings(this);
-//        settings.reset();
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         settings.reset();
     }
     private void setSampleData() {
-        db.loadSampleData();
+        db.loadSampleData(this);
         settings.setBudget(400);
     }
 

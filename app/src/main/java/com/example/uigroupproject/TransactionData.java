@@ -1,17 +1,21 @@
 package com.example.uigroupproject;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TransactionData {
     public long id;
     public String name;
     public double amount;
     public Date date;
-    public long categoryId = -1;
+    public long categoryId;
     public String categoryName = "No Category";
     public String description;
+    @SuppressLint("SimpleDateFormat")
     public SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public Date dateFromString(String _date) {
         try {
@@ -45,20 +49,13 @@ public class TransactionData {
     }
 
     public String getFormattedAmount() {
-        return String.format("$%.2f", amount);
+        return String.format(Locale.US, "$%.2f", amount);
     }
 
     public String getFormattedDate() {
         return dateToString();
-//        try {
-//            return String.format("%d/%d/%d", date.getMonth(), date.getDay(), date.getYear());
-//        } catch(NullPointerException e) {
-//            return "No Date.";
-////            return "??/??/????";
-//        }
     }
     public String dateToString() {
-//        if(date == null) return null;
         if(date == null) return "??/??/????";
         return dateFormat.format(date);
     }

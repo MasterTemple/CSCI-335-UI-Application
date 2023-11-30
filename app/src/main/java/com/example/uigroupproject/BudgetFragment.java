@@ -1,7 +1,6 @@
 package com.example.uigroupproject;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -21,11 +19,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class BudgetFragment extends Fragment {
     private List<CategoryData> categories = new ArrayList<>();
     private RecyclerView recyclerView;
-    private CategoryListAdapter adapter;
     private Context context;
     private Database db;
     private View view;
@@ -51,7 +49,7 @@ public class BudgetFragment extends Fragment {
         updateCategoryList();
 
         TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
-        budgetDisplay.setText(String.format("$%.2f", new Settings(context).budget));
+        budgetDisplay.setText(String.format(Locale.US, "$%.2f", new Settings(context).budget));
         Button addCategoryButton = view.findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v -> addCategory());
 
@@ -62,18 +60,15 @@ public class BudgetFragment extends Fragment {
                     .setTitle("Enter Budget")
                     .setView(dialogView)
                     .setPositiveButton("Set", (dialog, which) -> {
-//                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
-//                        TextView budgetDisplay1 = view.findViewById(R.id.monthly_budget_value);
                         EditText newBudgetDisplay = dialogView.findViewById(R.id.dialog_edit_budget_text);
                         double newBudget = Double.parseDouble(newBudgetDisplay.getText().toString());
                         // invalid budget
                         if(newBudget < totalAmount) {
                             AlertDialog confirmAlert = new MaterialAlertDialogBuilder(context, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
                                     .setTitle("Budget Lower Than Current Categories")
-                                    .setMessage(String.format("Your categories sum up to $%.2f but your new budget is only $%.2f", totalAmount, newBudget))
-                                    .setPositiveButton("Continue", (confirmDialog, cwhich) -> {
-                                        updateBudget(newBudget);
-                                    }).setNegativeButton("Cancel", (confirmDialog, cwhich) -> confirmDialog.dismiss()).setCancelable(true).create();
+                                    .setMessage(String.format(Locale.US, "Your categories sum up to $%.2f but your new budget is only $%.2f", totalAmount, newBudget))
+                                    .setPositiveButton("Continue", (confirmDialog, cwhich) -> updateBudget(newBudget))
+                                    .setNegativeButton("Cancel", (confirmDialog, cwhich) -> confirmDialog.dismiss()).setCancelable(true).create();
                             confirmAlert.show();
                         } else {
                             updateBudget(newBudget);
@@ -92,7 +87,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void updateCategoryList() {
-        adapter = new CategoryListAdapter(categories, context, totalPercent, totalAmount);
+        CategoryListAdapter adapter = new CategoryListAdapter(categories, context, totalPercent, totalAmount);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -105,8 +100,8 @@ public class BudgetFragment extends Fragment {
         }
         TextView totalPercentView = view.findViewById(R.id.categoryPercentTotal);
         TextView totalAmountView = view.findViewById(R.id.categoryValueTotal);
-        totalPercentView.setText(String.format("%.0f%%", totalPercent));
-        totalAmountView.setText(String.format("$%.2f", totalAmount));
+        totalPercentView.setText(String.format(Locale.US, "%.0f%%", totalPercent));
+        totalAmountView.setText(String.format(Locale.US, "$%.2f", totalAmount));
     }
 
     @Override
@@ -121,7 +116,7 @@ public class BudgetFragment extends Fragment {
         TextView budgetDisplay = view.findViewById(R.id.monthly_budget_value);
         Settings settings = new Settings(context);
         settings.setBudget(newBudget);
-        budgetDisplay.setText(String.format("$%.2f", settings.budget));
+        budgetDisplay.setText(String.format(Locale.US, "$%.2f", settings.budget));
         updateCategoryList();
         updateCategoryTotals();
     }

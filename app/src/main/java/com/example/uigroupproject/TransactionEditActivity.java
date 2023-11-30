@@ -1,5 +1,6 @@
 package com.example.uigroupproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -35,7 +36,6 @@ public class TransactionEditActivity extends AppCompatActivity {
     EditText inputAmount;
     EditText inputDate;
     AutoCompleteTextView inputCategoryId;
-    ArrayAdapter<String> categoryItemsAdapter;
     EditText inputDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class TransactionEditActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         String action = isNew ? "Add" : "Save";
-        toolbar.setTitle(String.format("%s a Transaction", action));
+        toolbar.setTitle(String.format(Locale.US, "%s a Transaction", action));
         toolbar.setNavigationOnClickListener(v -> finish());
 
         categories = db.getAllCategories();
@@ -129,8 +129,7 @@ public class TransactionEditActivity extends AppCompatActivity {
         if(isNew) {
             // hide delete buttons
             deleteButton.setVisibility(View.INVISIBLE);
-//            EditText date = findViewById(R.id.transaction_edit_date);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             inputDate.setText(dateFormat.format(new Date()));
         }
         else {
@@ -139,7 +138,7 @@ public class TransactionEditActivity extends AppCompatActivity {
                 transaction = db.getTransactionFromId(transactionId);
             }
             inputName.setText(transaction.name);
-            inputAmount.setText(String.format("%.2f", transaction.amount));
+            inputAmount.setText(String.format(Locale.US, "%.2f", transaction.amount));
             inputDate.setText(transaction.getFormattedDate());
             categoryId = transaction.categoryId;
             if(categoryId == -1)

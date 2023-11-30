@@ -6,21 +6,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 
-import androidx.annotation.Nullable;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Database extends SQLiteOpenHelper {
-    private static Database DB;
     private static final String NAME = "test_db_0x02";
     private static final int VERSION = 1;
     private static final String CATEGORY_TABLE = "categories";
@@ -58,10 +53,9 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    private long createFromData(String table, ContentValues data) {
+    private void createFromData(String table, ContentValues data) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long id = db.insert(table, null, data);
-        return id;
+        db.insert(table, null, data);
     }
 
     private void updateFromData(String table, ContentValues data, long id) {
@@ -74,22 +68,22 @@ public class Database extends SQLiteOpenHelper {
         db.delete(table, "id = ?", new String[] {String.valueOf(id)});
     }
 
-    public long createCategory(CategoryData category) {
+    public void createCategory(CategoryData category) {
         ContentValues data = new ContentValues();
         data.put("name", category.name);
         data.put("type", category.type);
         data.put("value", category.value);
-        return createFromData(CATEGORY_TABLE, data);
+        createFromData(CATEGORY_TABLE, data);
     }
 
-    public long createTransaction(TransactionData transaction) {
+    public void createTransaction(TransactionData transaction) {
         ContentValues data = new ContentValues();
         data.put("name", transaction.name);
         data.put("amount", transaction.amount);
         data.put("date", transaction.dateToString());
         data.put("categoryId", transaction.categoryId);
         data.put("description", transaction.description);
-        return createFromData(TRANSACTION_TABLE, data);
+        createFromData(TRANSACTION_TABLE, data);
     }
 
     public void updateCategory(CategoryData category, long id) {
@@ -144,6 +138,8 @@ public class Database extends SQLiteOpenHelper {
             );
             return category;
         }
+        if(cursor != null)
+            cursor.close();
         return null;
     }
 
@@ -168,6 +164,8 @@ public class Database extends SQLiteOpenHelper {
             );
             return transaction;
         }
+        if(cursor != null)
+            cursor.close();
         return null;
     }
 
@@ -194,9 +192,6 @@ public class Database extends SQLiteOpenHelper {
     public List<TransactionData> getAllTransactions() {
         List<TransactionData> transactions = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-//        String sql = "SELECT " + TRANSACTION_TABLE + ".*, " + CATEGORY_TABLE + ".name as categoryName FROM "
-//        + TRANSACTION_TABLE + ", " + CATEGORY_TABLE
-//        + " WHERE " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id or " + TRANSACTION_TABLE + ".categoryId = -1";
         String sql = "SELECT " + TRANSACTION_TABLE + ".*, (CASE WHEN " + TRANSACTION_TABLE + ".categoryId = -1 THEN 'No Category' ELSE " + CATEGORY_TABLE + ".name END) as categoryName FROM "
                 + TRANSACTION_TABLE + " LEFT JOIN " + CATEGORY_TABLE
                 + " ON " + TRANSACTION_TABLE + ".categoryId = " + CATEGORY_TABLE + ".id";
@@ -217,11 +212,12 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        Comparator<TransactionData> transactionSorter = (t1, t2) -> t1.date.compareTo(t2.date);
-        Collections.sort(transactions, transactionSorter);
+        Comparator<TransactionData> transactionSorter = Comparator.comparing(t -> t.date);
+        transactions.sort(transactionSorter);
         return transactions;
     }
 
+    @SuppressWarnings("deprecation")
     public List<TransactionData> getAllTransactionsInPastMonth() {
         List<TransactionData> transactions = getAllTransactions();
         List<TransactionData> transactionsThisMonth = new ArrayList<>();
@@ -232,9 +228,7 @@ public class Database extends SQLiteOpenHelper {
                 transaction.date.getYear() == today.getYear()) {
                     transactionsThisMonth.add(transaction);
                 }
-            } catch (Exception e) {
-
-            }
+            } catch (Exception ignored) { }
         }
         return transactionsThisMonth;
     }
@@ -254,23 +248,23 @@ public class Database extends SQLiteOpenHelper {
         clearCategories();
     }
 
-    public void loadSampleData() {
+    public void loadSampleData(Context context) {
         if(getAllTransactions().size() + getAllCategories().size() != 0)
             return;
-        createCategory(new CategoryData("Clothes", "Percent", (double) 10));
-        createCategory(new CategoryData("Technology", "Percent", (double) 20));
-        createCategory(new CategoryData("Food", "Percent", (double) 30));
-        createCategory(new CategoryData("Spotify", "Fixed Value", (double) 10));
+        createCategory(new CategoryData("Clothes", context.getString(R.string.category_type_percent), 10));
+        createCategory(new CategoryData("Technology", context.getString(R.string.category_type_percent), 20));
+        createCategory(new CategoryData("Food", context.getString(R.string.category_type_percent), 30));
+        createCategory(new CategoryData("Spotify", "Fixed Value", 10));
 
         List<CategoryData> categories = getAllCategories();
         Map<String, CategoryData> categoryDataMap = new HashMap<>();
         for(CategoryData c: categories) categoryDataMap.put(c.name, c);
 
-        createTransaction(new TransactionData("In-N-Out", (double) 12, "11/01/2023", categoryDataMap.get("Food").id, ""));
-        createTransaction(new TransactionData("Spotify Premium", (double) 11, "11/02/2023", categoryDataMap.get("Spotify").id, ""));
-        createTransaction(new TransactionData("Keyboard", (double) 80, "11/04/2023", categoryDataMap.get("Technology").id, ""));
-        createTransaction(new TransactionData("Caf Swipe", (double) 11.30, "11/05/2023", categoryDataMap.get("Food").id, ""));
-        createTransaction(new TransactionData("Athletic Shirt", (double) 7.00, "11/07/2023", categoryDataMap.get("Clothes").id, ""));
-        createTransaction(new TransactionData("Holiness - J.C. Ryle", (double) 18.00, "11/09/2023", (long) -1, ""));
+        createTransaction(new TransactionData("In-N-Out", 12.00, "11/01/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "11/02/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Keyboard", 80.00, "11/04/2023", Objects.requireNonNull(categoryDataMap.get("Technology")).id, ""));
+        createTransaction(new TransactionData("Caf Swipe", 11.30, "11/05/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
+        createTransaction(new TransactionData("Athletic Shirt", 7.00, "11/07/2023", Objects.requireNonNull(categoryDataMap.get("Clothes")).id, ""));
+        createTransaction(new TransactionData("Holiness - J.C. Ryle", 18.00, "11/09/2023", -1, ""));
     }
 }

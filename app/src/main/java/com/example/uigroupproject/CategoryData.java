@@ -1,8 +1,9 @@
 package com.example.uigroupproject;
 
-import android.content.Context;
 
-import java.util.StringJoiner;
+
+import android.content.Context;
+import java.util.Locale;
 
 public class CategoryData {
     public long id;
@@ -10,7 +11,6 @@ public class CategoryData {
     public String type;
     public double value;
     final private String PERCENT = "Percent";
-    final private String EMPTY_VALUE = "0";
     final private String FIXED_VALUE = "Fixed Value";
     public CategoryData(long _id, String _name, String _type, double _value) {
         id = _id;
@@ -29,34 +29,30 @@ public class CategoryData {
         return getPercentFromTotalSpent(budget);
     }
     public String getPercentFromTotalSpent(double totalSpent) {
-        double budget = totalSpent;
-        double val = value;
+        double val;
         if(type.contentEquals(PERCENT)) {
-//            return String.format("%.0f%%", value);
+            val = value;
         } else if(type.contentEquals(FIXED_VALUE)) {
-//            return budget == 0 ? "0%" : String.format("%.0f%%", 100 / (budget / value));
-            val = budget == 0 ? 0: (100 / (budget / value));
+            val = totalSpent == 0 ? 0: (100 / (totalSpent / value));
         } else {
             val = 0;
         }
-        return String.format("%.0f%%", val);
-//        return EMPTY_VALUE;
+        return String.format(Locale.US, "%.0f%%", val);
     }
 
     public String getNumber(Context context) {
         Settings settings = new Settings(context);
         double budget = settings.budget;
-        double val = value;
+        double val;
         if(type.contentEquals(FIXED_VALUE)) {
-//            return String.format("$%.2f", value);
+            val = value;
         } else if (type.contentEquals(PERCENT)) {
             double percent = value / 100;
             val = budget * percent;
-//            return String.format("$%.2f", budget * percent);
         } else {
             val = 0;
         }
-        return String.format("$%.2f", val);
+        return String.format(Locale.US, "$%.2f", val);
     }
 
     public double getNumberDouble(Context context) {

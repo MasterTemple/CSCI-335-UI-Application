@@ -10,21 +10,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AmountRemainingTableFragment extends Fragment {
-    private Context context;
-    private View view;
+    private final Context context;
     List<PurchaseDateData> days;
-    public AmountRemainingTableFragment(Context _context, List<PurchaseDateData> _days) {
-        context = _context;
-        days = _days;
-    }
+    @SuppressWarnings("deprecation")
     public AmountRemainingTableFragment(Context _context, Map<Integer, Double> spendingByDay) {
         context = _context;
         double budgetRemaining = new Settings(context).budget;
@@ -42,12 +38,13 @@ public class AmountRemainingTableFragment extends Fragment {
         months.put(10, "Oct");
         months.put(11, "Nov");
         months.put(12, "Dec");
+
         String monthName = months.get(new Date().getMonth() + 1);
         for(Map.Entry<Integer, Double> each: spendingByDay.entrySet()) {
             if(each.getValue() == 0)
                 continue;
             budgetRemaining -= each.getValue();
-            _days.add(new PurchaseDateData(String.format("%s %s", monthName, each.getKey()), each.getValue(), budgetRemaining));
+            _days.add(new PurchaseDateData(String.format(Locale.US, "%s %s", monthName, each.getKey()), each.getValue(), budgetRemaining));
         }
         days = _days;
     }
@@ -58,8 +55,8 @@ public class AmountRemainingTableFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_amount_remaining_table, container, false);
-        AmountRemainingTableAdapter adapter = new AmountRemainingTableAdapter(days, context);
+        View view = inflater.inflate(R.layout.fragment_amount_remaining_table, container, false);
+        AmountRemainingTableAdapter adapter = new AmountRemainingTableAdapter(days);
         RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_table);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

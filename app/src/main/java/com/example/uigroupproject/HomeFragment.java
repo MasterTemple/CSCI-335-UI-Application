@@ -18,6 +18,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -25,6 +26,7 @@ public class HomeFragment extends Fragment {
     private Database db;
     private View view;
 
+    @SuppressWarnings("deprecation")
     private static int getDaysLeftInMonth() {
         Date today = new Date();
         return 30 - today.getDay();
@@ -45,13 +47,13 @@ public class HomeFragment extends Fragment {
         }
         int daysLeftThisMonth = getDaysLeftInMonth();
         double remainingValue = budget - spentThisMonth;
-        Double remainingPercent = remainingValue * 100;
+        double remainingPercent = remainingValue * 100;
         progressBar.setProgress(budget == 0 ? 0 : (int)Math.floor(remainingPercent/budget));
         progressBar.setTrackThickness(20);
 //        progressBar.setIndicatorColor(ContextCompat.getColor(context, R.color.green));
-        percentRemaining.setText(String.format("%.1f%%", budget == 0 ? 0 : remainingPercent/budget));
-        dollarsRemaining.setText(String.format("$%.2f", remainingValue));
-        dailyBudget.setText(String.format("$%.2f", remainingValue / daysLeftThisMonth));
+        percentRemaining.setText(String.format(Locale.US, "%.1f%%", budget == 0 ? 0 : remainingPercent/budget));
+        dollarsRemaining.setText(String.format(Locale.US, "$%.2f", remainingValue));
+        dailyBudget.setText(String.format(Locale.US, "$%.2f", remainingValue / daysLeftThisMonth));
     }
 
     public HomeFragment() {}
@@ -62,8 +64,6 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new Database(context);
-//        db.loadSampleData();
-//        transactions = db.getAllTransactions();
     }
 
     @Override
@@ -92,8 +92,6 @@ public class HomeFragment extends Fragment {
     private void updateTransactionList() {
         List<TransactionData> transactions = db.getAllTransactionsInPastMonth();
         Collections.reverse(transactions);
-//        int index = transactions.size() > 3 ? 3 : transactions.size();
-//        transactions = transactions.subList(0, index);
         TransactionListAdapter adapter = new TransactionListAdapter(transactions, context);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

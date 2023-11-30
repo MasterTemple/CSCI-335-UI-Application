@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,26 +38,31 @@ public class CategoryEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_edit);
+
+        // set input elements
         inputCategoryName = findViewById(R.id.category_edit_name);
         inputCategoryType = findViewById(R.id.category_edit_proportion_type_autocomplete);
         inputCategoryValue = findViewById(R.id.category_edit_proportion_value);
 
+        // set input layout elements
         inputCategoryNameLayout = findViewById(R.id.category_edit_name_layout);
         inputCategoryTypeLayout = findViewById(R.id.category_edit_proportion_type_layout);
         inputCategoryValueLayout = findViewById(R.id.category_edit_proportion_value_layout);
 
+        // 3 category types
         ArrayList<String> categoryTypes = new ArrayList<>();
-        categoryTypes.add("Fixed Value");
-        categoryTypes.add("Percent");
-        categoryTypes.add("None");
+        categoryTypes.add(getString(R.string.category_type_fixed_value));
+        categoryTypes.add(getString(R.string.category_type_percent));
+        categoryTypes.add(getString(R.string.category_type_none));
+
         ArrayAdapter<String> categoryTypeAdapter = new ArrayAdapter<>(this, R.layout.select_category_item, categoryTypes);
         inputCategoryType.setAdapter(categoryTypeAdapter);
         inputCategoryType.setOnItemClickListener((parent, view, position, id) -> {
             String item = parent.getItemAtPosition(position).toString();
-            if(item.equals("Fixed Value")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
-            if(item.equals("Percent")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
-            if(item.equals("None")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
-            if(item.equals("None")) {
+            if(item.equals(getString(R.string.category_type_fixed_value))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
+            if(item.equals(getString(R.string.category_type_percent))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
+            if(item.equals(getString(R.string.category_type_none))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
+            if(item.equals(getString(R.string.category_type_none))) {
                 inputCategoryValue.setEnabled(false);
                 inputCategoryValue.setText("0");
                 inputCategoryValueLayout.setError(null);
@@ -66,7 +72,7 @@ public class CategoryEditActivity extends AppCompatActivity {
                 inputCategoryValue.setEnabled(true);
                 inputCategoryValue.setText("");
                 inputCategoryValueLayout.setError(null);
-                inputCategoryValueLayout.setHelperText(getResources().getString(R.string.text_input_helper_text_required));
+                inputCategoryValueLayout.setHelperText(getString(R.string.text_input_helper_text_required));
             }
         });
 
@@ -78,8 +84,8 @@ public class CategoryEditActivity extends AppCompatActivity {
         totalAmount = intent.getDoubleExtra("totalAmount", 0);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        String action = isNew ? "Create" : "Save";
-        toolbar.setTitle(String.format("%s a Category", action));
+        String action = isNew ? getString(R.string.action_create) : getString(R.string.action_edit);
+        toolbar.setTitle(String.format(Locale.US, "%s a Category", action));
         toolbar.setNavigationOnClickListener(v -> finish());
         MenuItem editButton = toolbar.getMenu().findItem(R.id.top_bar_edit_button);
         editButton.setTitle(action);
@@ -116,7 +122,7 @@ public class CategoryEditActivity extends AppCompatActivity {
 
             AlertDialog alert = new MaterialAlertDialogBuilder(CategoryEditActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
                     .setTitle("Over Budget")
-                    .setMessage(String.format("This will set your budget to $%.2f which is %.0f%% of $%.2f. Do you want to continue?",
+                    .setMessage(String.format(Locale.US, "This will set your budget to $%.2f which is %.0f%% of $%.2f. Do you want to continue?",
                     newTotalAmount, newTotalPercent, new Settings(CategoryEditActivity.this).budget))
                     .setPositiveButton("Continue", (dialog, which) -> {
                         if(isNew) {
@@ -145,7 +151,7 @@ public class CategoryEditActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(v -> {
             AlertDialog alert = new MaterialAlertDialogBuilder(CategoryEditActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_MaterialAlertDialog_Centered)
                     .setTitle("Confirm Deletion")
-                    .setMessage(String.format("Are you sure that you want to delete the \"%s\" category?", category.name))
+                    .setMessage(String.format(Locale.US, "Are you sure that you want to delete the \"%s\" category?", category.name))
                     .setPositiveButton("Delete", (dialog, which) -> {
                         db.deleteCategory(categoryId);
                         finish();
@@ -159,17 +165,13 @@ public class CategoryEditActivity extends AppCompatActivity {
         } else {
             // fill fields with previous values
             category = db.getCategoryFromId(categoryId);
-//            totalPercent += Double.parseDouble(category.getPercent(this).replace("%", ""));
-//            totalAmount += Double.parseDouble(category.getNumber(this).replace("$", ""));
-            totalPercent -= category.getPercentDouble(this);
-            totalAmount -= category.getNumberDouble(this);
-            inputCategoryName.setText(category.name);
-            inputCategoryType.setText(category.type, false);
-            inputCategoryValue.setText(String.format("%.2f", category.value));
+
             if(category.type.equals("Fixed Value")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
-            if(category.type.equals("Percent")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
-            if(category.type.equals("None")) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
-            if(category.type.equals("None")) {
+//            if(category.type.equals(getString(R.string.category_type_fixed_value))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_money);
+            if(category.type.equals(getString(R.string.category_type_percent))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_percent);
+
+            if(category.type.equals(getString(R.string.category_type_none))) inputCategoryValueLayout.setStartIconDrawable(R.drawable.ic_no_money);
+            if(category.type.equals(getString(R.string.category_type_none))) {
                 inputCategoryValue.setEnabled(false);
                 inputCategoryValue.setText("0");
                 inputCategoryValueLayout.setError(null);
@@ -179,8 +181,14 @@ public class CategoryEditActivity extends AppCompatActivity {
                 inputCategoryValue.setEnabled(true);
                 inputCategoryValue.setText("");
                 inputCategoryValueLayout.setError(null);
-                inputCategoryValueLayout.setHelperText(getResources().getString(R.string.text_input_helper_text_required));
+                inputCategoryValueLayout.setHelperText(getString(R.string.text_input_helper_text_required));
             }
+
+            totalPercent -= category.getPercentDouble(this);
+            totalAmount -= category.getNumberDouble(this);
+            inputCategoryName.setText(category.name);
+            inputCategoryType.setText(category.type, false);
+            inputCategoryValue.setText(String.format(Locale.US, "%.2f", category.value));
         }
         // listen for input to validate
         inputCategoryName.addTextChangedListener(ErrorHandling.checkForNonEmptyField(inputCategoryNameLayout));
