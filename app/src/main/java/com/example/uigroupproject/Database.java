@@ -260,11 +260,25 @@ public class Database extends SQLiteOpenHelper {
         Map<String, CategoryData> categoryDataMap = new HashMap<>();
         for(CategoryData c: categories) categoryDataMap.put(c.name, c);
 
-        createTransaction(new TransactionData("In-N-Out", 12.00, "11/01/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
-        createTransaction(new TransactionData("Spotify Premium", 11.00, "11/02/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
-        createTransaction(new TransactionData("Keyboard", 80.00, "11/04/2023", Objects.requireNonNull(categoryDataMap.get("Technology")).id, ""));
-        createTransaction(new TransactionData("Caf Swipe", 11.30, "11/05/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
-        createTransaction(new TransactionData("Athletic Shirt", 7.00, "11/07/2023", Objects.requireNonNull(categoryDataMap.get("Clothes")).id, ""));
-        createTransaction(new TransactionData("Holiness - J.C. Ryle", 18.00, "11/09/2023", -1, ""));
+
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "01/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "02/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "3/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "4/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("iPhone Charger", 15.00, "4/17/2023", Objects.requireNonNull(categoryDataMap.get("Technology")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "5/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "6/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 10.00, "7/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "8/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "9/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "10/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "11/01/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+
+        createTransaction(new TransactionData("In-N-Out", 12.00, "12/01/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
+        createTransaction(new TransactionData("Spotify Premium", 11.00, "12/02/2023", Objects.requireNonNull(categoryDataMap.get("Spotify")).id, ""));
+        createTransaction(new TransactionData("Keyboard", 80.00, "12/03/2023", Objects.requireNonNull(categoryDataMap.get("Technology")).id, ""));
+        createTransaction(new TransactionData("Caf Swipe", 11.30, "12/03/2023", Objects.requireNonNull(categoryDataMap.get("Food")).id, ""));
+        createTransaction(new TransactionData("Athletic Shirt", 7.00, "12/04/2023", Objects.requireNonNull(categoryDataMap.get("Clothes")).id, ""));
+        createTransaction(new TransactionData("Holiness - J.C. Ryle", 18.00, "12/05/2023", -1, ""));
     }
 }
