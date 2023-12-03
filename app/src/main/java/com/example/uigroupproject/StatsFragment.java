@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/** @noinspection resource*/
 public class StatsFragment extends Fragment {
     private Context context;
     List<TransactionData> transactions;
@@ -57,11 +58,11 @@ public class StatsFragment extends Fragment {
         for(TransactionData transaction: transactions) {
 //            if (spendingByCategory.containsKey(transaction.categoryId))
 //                try {
-            spendingByCategory.put(transaction.categoryId, spendingByCategory.get(transaction.categoryId) + transaction.amount);
+            spendingByCategory.put(transaction.categoryId, Objects.requireNonNull(spendingByCategory.get(transaction.categoryId)) + transaction.amount);
 //                } catch (NullPointerException ignore){}
             int day = transaction.date.getDate();
 //            if (spendingOnDay.containsKey(day))
-            spendingOnDay.put(day, spendingOnDay.get(day) + transaction.amount);
+            spendingOnDay.put(day, Objects.requireNonNull(spendingOnDay.get(day)) + transaction.amount);
         }
         for(Map.Entry<Long, Double> entry: spendingByCategory.entrySet()) {
             Long categoryId = entry.getKey();
@@ -73,7 +74,7 @@ public class StatsFragment extends Fragment {
             if(categoryId == -1){
                 entries.add(new PieEntry(Float.parseFloat(amount.toString()), NO_CATEGORY));
             } else {
-                CategoryData category = categoriesById.get(categoryId);
+                CategoryData category = Objects.requireNonNull(categoriesById.get(categoryId));
                 entries.add(new PieEntry(Float.parseFloat(amount.toString()), category.name));
             }
         }
@@ -84,17 +85,13 @@ public class StatsFragment extends Fragment {
         List<CategoryData> categoriesActual = new ArrayList<>();
         for(CategoryData c: categories) {
             // hack so i dont have to redo it
-            categoriesActual.add(new CategoryData(c.id, c.name, context.getString(R.string.category_type_fixed_value), spendingByCategory.get(c.id)));
+            categoriesActual.add(new CategoryData(c.id, c.name, context.getString(R.string.category_type_fixed_value), Objects.requireNonNull(spendingByCategory.get(c.id))));
         }
 //        double noCategoryMoney = spendingByCategory.get((long)-1);
-        CategoryData noCategory = new CategoryData(-1, "No Category", context.getString(R.string.category_type_fixed_value), spendingByCategory.get((long)-1));
+        CategoryData noCategory = new CategoryData(-1, "No Category", context.getString(R.string.category_type_fixed_value), Objects.requireNonNull(spendingByCategory.get((long)-1)));
 //        CategoryData noCategory = new CategoryData(-1, "No Category", context.getString(R.string.category_type_fixed_value), spendingByCategory.get(-1));
         categoriesActual.add(noCategory);
         categoriesActual.sort(Comparator.comparingDouble(c -> -1*c.value));
-//        CategoryListAdapter adapter = new CategoryListAdapter(categoriesActual, context);
-//        RecyclerView recyclerView = view.findViewById(R.id.spending_by_category_list);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         TabLayout byCategoryTabLayout = view.findViewById(R.id.spending_by_category_pie_chart_tab_layout);
         setSpendingByCategoryFragment(new SpendingByCategoryPieChartFragment(entries));

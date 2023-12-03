@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
+/** @noinspection resource*/
 public class TransactionEditActivity extends AppCompatActivity {
     List<CategoryData> categories = new ArrayList<>();
     TransactionData transaction;

@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
+/** @noinspection resource*/
 public class CategoryEditActivity extends AppCompatActivity {
     EditText inputCategoryName;
     AutoCompleteTextView inputCategoryType;

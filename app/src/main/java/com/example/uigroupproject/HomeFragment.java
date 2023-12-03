@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/** @noinspection resource*/
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private Context context;
