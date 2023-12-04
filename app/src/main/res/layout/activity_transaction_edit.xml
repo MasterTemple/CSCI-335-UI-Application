@@ -49,6 +49,7 @@
         app:errorEnabled="true"
         >
         <EditText
+            android:importantForAutofill="no"
             android:id="@+id/transaction_edit_name"
             android:hint="@string/hint_transaction_name"
             android:layout_width="match_parent"
@@ -67,6 +68,7 @@
         >
         <EditText
             android:id="@+id/transaction_edit_amount"
+            android:importantForAutofill="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_transaction_amount"
@@ -88,6 +90,7 @@
         >
         <EditText
             android:id="@+id/transaction_edit_date"
+            android:importantForAutofill="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/transaction_edit_amount_layout"
@@ -127,9 +130,10 @@
         app:endIconMode="clear_text"
         >
         <EditText
+            android:id="@+id/transaction_edit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transaction_edit_description"
+            android:importantForAutofill="no"
             android:hint="@string/hint_transaction_description"
             android:inputType="textMultiLine"
             />

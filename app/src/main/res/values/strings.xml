@@ -33,6 +33,7 @@
     <string name="home_daily_budget">Daily Budget</string>
     <string name="home_recent_transactions">Recent Transactions</string>
     <string name="home_view_all_transactions">View All</string>
+    <string name="home_add_new_transaction">Add new Transaction +</string>
 
     <string name="budget_monthly_budget">Monthly Budget:</string>
     <string name="budget_edit_budget">Edit Budget</string>
@@ -53,5 +54,22 @@
     <string name="category_type_percent">Percent</string>
     <string name="category_type_fixed_value">Fixed Value</string>
     <string name="category_type_none">None</string>
+
+    <string name="budget_table_label_category">\nCategory</string>
+    <string name="budget_table_label_percent">Percent of Budget</string>
+    <string name="budget_table_label_amount">Amount of Budget</string>
+    <string name="budget_table_label_total">Categories Total</string>
+
+    <string name="spending_by_category_table_label_category">\nCategory</string>
+    <string name="spending_by_category_table_label_percent">Percent of Spendning</string>
+    <string name="spending_by_category_table_label_spent">Dollars Spent</string>
+
+    <string name="activity_label_spending_by_category">Spending by Category</string>
+    <string name="activity_label_pie_chart">Pie Chart</string>
+    <string name="activity_label_data_table">Data Table</string>
+    <string name="activity_label_line_graph">Line Graph</string>
+    <string name="activity_label_amount_remaining">Amount Remaining This Month</string>
+
+    <string name="content_description_category_icon">Category</string>
 
 </resources>

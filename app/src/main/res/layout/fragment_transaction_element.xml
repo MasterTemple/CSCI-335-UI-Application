@@ -12,14 +12,13 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         >
 
         <TextView
             android:id="@+id/transactionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The Purchase"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -33,10 +32,10 @@
                 android:id="@+id/transactionDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="11/04/2023"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:textColor="@color/primary" />
             <ImageView
+                android:contentDescription="@string/content_description_category_icon"
                 android:id="@+id/categoryIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -51,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/categoryIcon"
-                android:text="Some Category"
                 android:textColor="@color/accent" />
         </RelativeLayout>
     </RelativeLayout>
@@ -61,7 +59,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/transactionAmount"
         android:textSize="30sp"
-        android:text="$48.00"
         android:textAlignment="textEnd"
         android:layout_toEndOf="@id/transactionInfo"
         android:textColor="@color/black"

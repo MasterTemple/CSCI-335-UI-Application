@@ -5,12 +5,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
     >
 
         <TextView
             android:id="@+id/spending_by_category_pie_chart_title"
-            android:text="Spending by Category"
+            android:text="@string/activity_label_spending_by_category"
             style="@style/customHeading"
             />
 
@@ -21,11 +21,11 @@
             style="@style/Widget.MaterialComponents.TabLayout"
             android:layout_height="wrap_content">
             <com.google.android.material.tabs.TabItem
-                android:text="Pie Chart"
+                android:text="@string/activity_label_pie_chart"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
             <com.google.android.material.tabs.TabItem
-                android:text="Data Table"
+                android:text="@string/activity_label_data_table"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
         </com.google.android.material.tabs.TabLayout>
@@ -49,7 +49,7 @@
             android:id="@+id/spending_line_graph_title"
             android:layout_below="@id/pie_view"
             android:layout_marginTop="10dp"
-            android:text="Amount Remaining This Month"
+            android:text="@string/activity_label_amount_remaining"
             style="@style/customHeading"
             />
 
@@ -60,27 +60,14 @@
             style="@style/Widget.MaterialComponents.TabLayout"
             android:layout_height="wrap_content">
             <com.google.android.material.tabs.TabItem
-                android:text="Line Graph"
+                android:text="@string/activity_label_line_graph"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
             <com.google.android.material.tabs.TabItem
-                android:text="Data Table"
+                android:text="@string/activity_label_data_table"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
         </com.google.android.material.tabs.TabLayout>
-
-<!--        <RelativeLayout-->
-<!--            android:id="@+id/line_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="350dp"-->
-<!--            android:layout_below="@id/spending_line_graph_tab_layout">-->
-<!--            <com.github.mikephil.charting.charts.LineChart-->
-<!--                android:id="@+id/spending_line_graph"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_margin="20dp"-->
-<!--                />-->
-<!--        </RelativeLayout>-->
 
         <FrameLayout
             android:id="@+id/line_view"

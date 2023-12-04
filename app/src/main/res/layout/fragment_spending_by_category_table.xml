@@ -20,7 +20,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
 
-            android:text="\nCategory"
+            android:text="@string/spending_by_category_table_label_category"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -34,7 +34,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_toEndOf="@id/spending_by_category_table_header_category"
-            android:text="Percent of Spending"
+            android:text="@string/spending_by_category_table_label_percent"
             android:textColor="@color/black"
             android:textAlignment="textEnd"
             android:textSize="16sp"
@@ -49,7 +49,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_toEndOf="@id/spending_by_category_table_header_percent"
-            android:text="Dollars Spent"
+            android:text="@string/spending_by_category_table_label_spent"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textAlignment="textEnd"
