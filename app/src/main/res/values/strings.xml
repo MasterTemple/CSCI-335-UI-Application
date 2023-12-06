@@ -61,7 +61,7 @@
     <string name="budget_table_label_total">Categories Total</string>
 
     <string name="spending_by_category_table_label_category">\nCategory</string>
-    <string name="spending_by_category_table_label_percent">Percent of Spendning</string>
+    <string name="spending_by_category_table_label_percent">Percent of Spending</string>
     <string name="spending_by_category_table_label_spent">Dollars Spent</string>
 
     <string name="activity_label_spending_by_category">Spending by Category</string>
@@ -71,5 +71,9 @@
     <string name="activity_label_amount_remaining">Amount Remaining This Month</string>
 
     <string name="content_description_category_icon">Category</string>
+
+    <string name="amount_remaining_table_label_day">Purchase Date</string>
+    <string name="amount_remaining_table_label_amount_spent">Amount Spent</string>
+    <string name="amount_remaining_table_label_amount_remaining">Amount Remaining</string>
 
 </resources>
